@@ -1,0 +1,4 @@
+set PATH=%windir%\system32;%windir%;%windir%\System32\Wbem;%windir%\System32\WindowsPowerShell\v1.0\;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;%CD%;%CD%\PortableGit\bin\;%CD%\Elan\bin\
+set ELAN_HOME=%CD%\Elan
+set XDG_CACHE_HOME=%CD%\Cache
+set ELECTRON_EXTRA_LAUNCH_ARGS=--disable-gpu-sandbox
