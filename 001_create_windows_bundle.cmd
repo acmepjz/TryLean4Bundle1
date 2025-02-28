@@ -71,19 +71,19 @@ call scripts\setup_env_variables.cmd
 
 :: Create demo Project
 
-".\PortableGit\bin\bash.exe" -c "cd projects && lake +%LEAN_TOOLCHAIN_VERSION% new Trylean math"
+".\PortableGit\bin\bash.exe" -c "cd projects && lake +%LEAN_TOOLCHAIN_VERSION% new LeanPlayground math"
 
 :: download mathlib, run 3 times as it errors randomly
 
 set MATHLIB_NO_CACHE_ON_UPDATE=1
-".\PortableGit\bin\bash.exe" -c "cd projects/Trylean && lake update"
-".\PortableGit\bin\bash.exe" -c "cd projects/Trylean && lake update"
-".\PortableGit\bin\bash.exe" -c "cd projects/Trylean && lake update"
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake update"
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake update"
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake update"
 
 :: download mathlib cache, run 3 times as it errors randomly
 
-".\PortableGit\bin\bash.exe" -c "cd projects/Trylean && lake exe cache get-"
-".\PortableGit\bin\bash.exe" -c "cd projects/Trylean && lake exe cache get-"
-".\PortableGit\bin\bash.exe" -c "cd projects/Trylean && lake exe cache get-"
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
 
 :: TODO package it with install script and run script
