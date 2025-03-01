@@ -40,7 +40,7 @@ rmdir "Downloads\leantar-v0.1.14-x86_64-pc-windows-msvc"
 
 :: copy default settings
 
-copy /y vscodium_settings.json TryLean4Bundle\VSCodium\data\user-data\User\settings.json
+copy /y Resources\vscodium_settings.json TryLean4Bundle\VSCodium\data\user-data\User\settings.json
 
 :: Unfortunately, lean4 extension can't be installed using command line, but only in GUI mode
 :: so we have to install it in ad ad-hoc way
@@ -58,7 +58,7 @@ set /p LEAN_TOOLCHAIN_VERSION=<lean-toolchain
 
 cd ..
 
-copy /y setup_env_variables_template.txt TryLean4Bundle\scripts\setup_env_variables.cmd
+copy /y Resources\setup_env_variables_template.txt TryLean4Bundle\scripts\setup_env_variables.cmd
 echo set LEAN_TOOLCHAIN_VERSION=%LEAN_TOOLCHAIN_VERSION%>>TryLean4Bundle\scripts\setup_env_variables.cmd
 
 cd TryLean4Bundle
