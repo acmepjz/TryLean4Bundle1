@@ -43,7 +43,7 @@ copy /y .lake\packages\mathlib\docs .\docs
 
 lake build doc-gen4
 
-:: generate docs
+:: generate docs (will take about 3 hours)
 
 lake build Batteries:docs Qq:docs Aesop:docs ProofWidgets:docs Mathlib:docs Archive:docs Counterexamples:docs docs:docs
 lake build Mathlib:docsHeader
