@@ -4,15 +4,15 @@ mkdir Downloads
 
 cd Downloads
 
-curl -L -o "PortableGit.exe" "https://github.com/git-for-windows/git/releases/download/v2.48.1.windows.1/PortableGit-2.48.1-64-bit.7z.exe"
-curl -L -o "VSCodium.zip" "https://github.com/VSCodium/vscodium/releases/download/1.97.2.25045/VSCodium-win32-x64-1.97.2.25045.zip"
-curl -L -o "lean4ext.zip" "https://github.com/leanprover/vscode-lean4/releases/download/v0.0.195/lean4-0.0.195.vsix"
+curl --retry 5 -L -o "PortableGit.exe" "https://github.com/git-for-windows/git/releases/download/v2.48.1.windows.1/PortableGit-2.48.1-64-bit.7z.exe"
+curl --retry 5 -L -o "VSCodium.zip" "https://github.com/VSCodium/vscodium/releases/download/1.97.2.25045/VSCodium-win32-x64-1.97.2.25045.zip"
+curl --retry 5 -L -o "lean4ext.zip" "https://github.com/leanprover/vscode-lean4/releases/download/v0.0.195/lean4-0.0.195.vsix"
 
-curl -L -o "7zr.exe" "https://www.7-zip.org/a/7zr.exe"
+curl --retry 5 -L -o "7zr.exe" "https://www.7-zip.org/a/7zr.exe"
 :: TODO add option to force mathlib version
-curl -L -o "lean-toolchain" "https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain"
-curl -L -o "elan-init.sh" "https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh"
-curl -L -o "leantar.zip" "https://github.com/digama0/leangz/releases/download/v0.1.14/leantar-v0.1.14-x86_64-pc-windows-msvc.zip"
+curl --retry 5 -L -o "lean-toolchain" "https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain"
+curl --retry 5 -L -o "elan-init.sh" "https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh"
+curl --retry 5 -L -o "leantar.zip" "https://github.com/digama0/leangz/releases/download/v0.1.14/leantar-v0.1.14-x86_64-pc-windows-msvc.zip"
 
 cd ..
 
@@ -94,7 +94,7 @@ cd ..
 
 :: download Glimpse of Lean
 
-curl -L -o "Downloads\GlimpseOfLean.zip" "https://github.com/PatrickMassot/GlimpseOfLean/archive/refs/heads/master.zip"
+curl --retry 5 -L -o "Downloads\GlimpseOfLean.zip" "https://github.com/PatrickMassot/GlimpseOfLean/archive/refs/heads/master.zip"
 tar -x -f "Downloads\GlimpseOfLean.zip" -C "Downloads"
 move /y "Downloads\GlimpseOfLean-master\GlimpseOfLean" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\"
 move /y "Downloads\GlimpseOfLean-master\README.md" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\GlimpseOfLean\"
@@ -105,7 +105,7 @@ rmdir /s /q "Downloads\GlimpseOfLean-master"
 
 :: download Mathematics in Lean
 
-curl -L -o "Downloads\mathematics_in_lean.zip" "https://github.com/leanprover-community/mathematics_in_lean/archive/refs/heads/master.zip"
+curl --retry 5 -L -o "Downloads\mathematics_in_lean.zip" "https://github.com/leanprover-community/mathematics_in_lean/archive/refs/heads/master.zip"
 tar -x -f "Downloads\mathematics_in_lean.zip" -C "Downloads"
 move /y "Downloads\mathematics_in_lean-master\MIL" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\"
 move /y "Downloads\mathematics_in_lean-master\README.md" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\MIL\"
@@ -115,7 +115,7 @@ rmdir /s /q "Downloads\mathematics_in_lean-master"
 
 :: download Formalising Mathematics 2024
 
-curl -L -o "Downloads\formalising-mathematics-2024.zip" "https://github.com/ImperialCollegeLondon/formalising-mathematics-2024/archive/refs/heads/main.zip"
+curl --retry 5 -L -o "Downloads\formalising-mathematics-2024.zip" "https://github.com/ImperialCollegeLondon/formalising-mathematics-2024/archive/refs/heads/main.zip"
 tar -x -f "Downloads\formalising-mathematics-2024.zip" -C "Downloads"
 move /y "Downloads\formalising-mathematics-2024-main\FormalisingMathematics2024" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\"
 move /y "Downloads\formalising-mathematics-2024-main\README.md" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\FormalisingMathematics2024\"
