@@ -2,13 +2,13 @@
 :: NOTE run this AFTER packaging demo projects, as it will unpack mathlib cache ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::: setup environment variable ::::::::
+:: setup environment variable
 
 cd TryLean4Bundle
 
 call scripts\setup_env_variables.cmd
 
-:::::::: add dependencies ::::::::
+:: add dependencies
 
 echo.>>projects\LeanPlayground\lakefile.toml
 echo [[require]]>>projects\LeanPlayground\lakefile.toml
@@ -16,18 +16,12 @@ echo scope = "leanprover">>projects\LeanPlayground\lakefile.toml
 echo name = "doc-gen4">>projects\LeanPlayground\lakefile.toml
 echo rev = "main">>projects\LeanPlayground\lakefile.toml
 
-:: download mathlib, run 3 times as it errors randomly
+:: download and unpack mathlib+cache, run 3 times as it errors randomly
 
 set MATHLIB_NO_CACHE_ON_UPDATE=0
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake update"
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake update"
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake update"
-
-:: download and unpack mathlib cache, run 3 times as it errors randomly
-
-".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get"
-".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get"
-".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get"
 
 cd projects\LeanPlayground
 
@@ -42,7 +36,8 @@ git remote add origin "https://github.com/leanprover-community/workaround"
 
 :: Copy references
 
-copy /y .lake\packages\mathlib\docs .\
+mkdir docs
+copy /y .lake\packages\mathlib\docs .\docs
 
 :: build doc-gen4
 
@@ -55,6 +50,7 @@ lake build Mathlib:docsHeader
 
 :: copy extra files
 
+mkdir .lake\build\doc
 copy /y .lake\packages\mathlib\docs .lake\build\doc
 
-:: TODO
+:: TODO package etc
