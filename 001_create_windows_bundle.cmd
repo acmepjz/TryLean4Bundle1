@@ -1,4 +1,4 @@
-:: download components
+:::::::: download components ::::::::
 
 mkdir Downloads
 
@@ -16,7 +16,7 @@ curl -L -o "leantar.zip" "https://github.com/digama0/leangz/releases/download/v0
 
 cd ..
 
-:: install components
+:::::::: install components ::::::::
 
 mkdir TryLean4Bundle
 mkdir TryLean4Bundle\PortableGit
@@ -50,7 +50,7 @@ tar -x -f "Downloads\lean4ext.zip" -C "Downloads\lean4ext"
 move /y "Downloads\lean4ext\extension" TryLean4Bundle\VSCodium\data\extensions\leanprover.lean4-0.0.195
 rmdir /s /q Downloads\lean4ext
 
-:: setup environment variable
+:::::::: setup environment variable ::::::::
 
 cd Downloads
 
@@ -65,11 +65,11 @@ cd TryLean4Bundle
 
 call scripts\setup_env_variables.cmd
 
-:: install elan
+:::::::: install elan ::::::::
 
 ".\PortableGit\bin\bash.exe" -c "../Downloads/elan-init.sh -y --no-modify-path --default-toolchain %LEAN_TOOLCHAIN_VERSION%"
 
-:: Create demo Project
+:::::::: Create demo Project ::::::::
 
 ".\PortableGit\bin\bash.exe" -c "cd projects && lake +%LEAN_TOOLCHAIN_VERSION% new LeanPlayground math"
 
@@ -86,4 +86,4 @@ set MATHLIB_NO_CACHE_ON_UPDATE=1
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
 
-:: TODO package it with install script and run script
+:::::::: TODO package it with install script and run script ::::::::
