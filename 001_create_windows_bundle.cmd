@@ -86,4 +86,41 @@ set MATHLIB_NO_CACHE_ON_UPDATE=1
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground && lake exe cache get-"
 
+:: TODO overwrite LeanPlayground.lean with an example file
+
+:::::::: download learning materials ::::::::
+
+cd ..
+
+:: download Glimpse of Lean
+
+curl -L -o "Downloads\GlimpseOfLean.zip" "https://github.com/PatrickMassot/GlimpseOfLean/archive/refs/heads/master.zip"
+tar -x -f "Downloads\GlimpseOfLean.zip" -C "Downloads"
+move /y "Downloads\GlimpseOfLean-master\GlimpseOfLean" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\"
+move /y "Downloads\GlimpseOfLean-master\README.md" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\GlimpseOfLean\"
+move /y "Downloads\GlimpseOfLean-master\LICENSE" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\GlimpseOfLean\"
+move /y "Downloads\GlimpseOfLean-master\tactics.pdf" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\GlimpseOfLean\"
+rmdir /s /q "Downloads\GlimpseOfLean-master"
+"TryLean4Bundle\PortableGit\bin\bash.exe" -c "cd TryLean4Bundle/projects/LeanPlayground/LeanPlayground && ../../../../Resources/patch_import.sh GlimpseOfLean"
+
+:: download Mathematics in Lean
+
+curl -L -o "Downloads\mathematics_in_lean.zip" "https://github.com/leanprover-community/mathematics_in_lean/archive/refs/heads/master.zip"
+tar -x -f "Downloads\mathematics_in_lean.zip" -C "Downloads"
+move /y "Downloads\mathematics_in_lean-master\MIL" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\"
+move /y "Downloads\mathematics_in_lean-master\README.md" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\MIL\"
+move /y "Downloads\mathematics_in_lean-master\mathematics_in_lean.pdf" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\MIL\"
+rmdir /s /q "Downloads\mathematics_in_lean-master"
+"TryLean4Bundle\PortableGit\bin\bash.exe" -c "cd TryLean4Bundle/projects/LeanPlayground/LeanPlayground && ../../../../Resources/patch_import.sh MIL"
+
+:: download Formalising Mathematics 2024
+
+curl -L -o "Downloads\formalising-mathematics-2024.zip" "https://github.com/ImperialCollegeLondon/formalising-mathematics-2024/archive/refs/heads/main.zip"
+tar -x -f "Downloads\formalising-mathematics-2024.zip" -C "Downloads"
+move /y "Downloads\formalising-mathematics-2024-main\FormalisingMathematics2024" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\"
+move /y "Downloads\formalising-mathematics-2024-main\README.md" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\FormalisingMathematics2024\"
+move /y "Downloads\formalising-mathematics-2024-main\LICENSE" "TryLean4Bundle\projects\LeanPlayground\LeanPlayground\FormalisingMathematics2024\"
+rmdir /s /q "Downloads\formalising-mathematics-2024-main"
+:: no need to patch import for this
+
 :::::::: TODO package it with install script and run script ::::::::
