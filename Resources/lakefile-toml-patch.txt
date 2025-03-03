@@ -1,0 +1,5 @@
+
+[[require]]
+scope = "leanprover"
+name = "doc-gen4"
+rev = "main"

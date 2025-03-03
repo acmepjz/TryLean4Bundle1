@@ -10,11 +10,9 @@ call scripts\setup_env_variables.cmd
 
 :: add dependencies
 
-echo.>>projects\LeanPlayground\lakefile.toml
-echo [[require]]>>projects\LeanPlayground\lakefile.toml
-echo scope = "leanprover">>projects\LeanPlayground\lakefile.toml
-echo name = "doc-gen4">>projects\LeanPlayground\lakefile.toml
-echo rev = "main">>projects\LeanPlayground\lakefile.toml
+move projects\LeanPlayground\lakefile.toml projects\LeanPlayground\lakefile.toml.1
+copy /B projects\LeanPlayground\lakefile.toml.1 + ..\Resources\lakefile-toml-patch.txt projects\LeanPlayground\lakefile.toml
+del projects\LeanPlayground\lakefile.toml.1
 
 :: download and unpack mathlib+cache, run 3 times as it errors randomly
 
@@ -37,7 +35,11 @@ git remote add origin "https://github.com/leanprover-community/workaround"
 :: Copy references
 
 mkdir docs
-copy /y .lake\packages\mathlib\docs .\docs
+copy /y .lake\packages\mathlib\docs\references.bib .\docs\references.bib
+
+:: patch source code of doc-gen4
+
+"..\..\PortableGit\bin\bash.exe" -c "../../../Resources/patch_html.sh .lake/packages/doc-gen4/DocGen4/Output/Template.lean"
 
 :: build doc-gen4
 
@@ -46,11 +48,58 @@ lake build doc-gen4
 :: generate docs (will take about 3 hours)
 
 lake build Batteries:docs Qq:docs Aesop:docs ProofWidgets:docs Mathlib:docs Archive:docs Counterexamples:docs docs:docs
-lake build Mathlib:docsHeader
 
-:: copy extra files
+:: delete files which are not going to be packaged
 
-mkdir .lake\build\doc
-copy /y .lake\packages\mathlib\docs .lake\build\doc
+cd .lake\build\doc
+del /S /Q *.hash
+del /S /Q *.trace
+del declarations\header-data.bmp
+
+:: download resources
+
+cd ..\..\..\..\..\..
+
+curl --retry 5 -L -o "Downloads\lato-font.zip" "https://github.com/betsol/lato-font/archive/refs/heads/master.zip"
+tar -x -f "Downloads\lato-font.zip" -C "Downloads"
+curl --retry 5 -L -o "Downloads\juliamono.zip" "https://github.com/cormullion/juliamono/archive/refs/heads/master.zip"
+tar -x -f "Downloads\juliamono.zip" -C "Downloads"
+:: drop IE11 support
+curl --retry 5 -L -o "Downloads\MathJax.zip" "https://github.com/mathjax/MathJax/archive/refs/heads/master.zip"
+tar -x -f "Downloads\MathJax.zip" -C "Downloads"
+
+cd Downloads\lato-font-master\fonts
+del /S /Q *.woff
+cd ..\..\..
+
+:: copy resources
+
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\lato-font
+move /y Downloads\lato-font-master\css TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\lato-font\
+move /y Downloads\lato-font-master\fonts TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\lato-font\
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\juliamono
+move /y Downloads\juliamono-master\webfonts TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\juliamono\
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml
+mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml\fonts
+move /y Downloads\MathJax-master\es5\tex-mml-chtml.js TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\
+move /y Downloads\MathJax-master\es5\output\chtml\fonts\woff-v2 TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml\fonts\
+rmdir /s /q "Downloads\lato-font-master"
+rmdir /s /q "Downloads\juliamono-master"
+rmdir /s /q "Downloads\MathJax-master"
+
+cd TryLean4Bundle
+
+:: patch style.css
+
+".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground/.lake/build/doc && ../../../../../../Resources/patch_style_css.sh style.css"
+
+:: patch MathJax loader
+
+move projects\LeanPlayground\.lake\build\doc\mathjax-config.js projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1
+copy /B projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1 + ..\Resources\mathjax-config-patch.txt projects\LeanPlayground\.lake\build\doc\mathjax-config.js
+del projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1
 
 :: TODO package etc

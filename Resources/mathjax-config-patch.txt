@@ -1,0 +1,7 @@
+
+(function () {
+  var script = document.createElement('script');
+  script.src = SITE_ROOT + 'MathJax/es5/tex-mml-chtml.js';
+  script.async = true;
+  document.head.appendChild(script);
+})();
