@@ -50,6 +50,12 @@ tar -x -f "Downloads\lean4ext.zip" -C "Downloads\lean4ext"
 move /y "Downloads\lean4ext\extension" TryLean4Bundle\VSCodium\data\extensions\leanprover.lean4-0.0.195
 rmdir /s /q Downloads\lean4ext
 
+:: copy install scripts
+
+copy Resources\unpack_cache.cmd TryLean4Bundle\
+copy Resources\start_Lean_VSCode.cmd TryLean4Bundle\
+copy Resources\start_Lean_bash.cmd TryLean4Bundle\
+
 :::::::: setup environment variable ::::::::
 
 cd Downloads
@@ -123,4 +129,4 @@ move /y "Downloads\formalising-mathematics-2024-main\LICENSE" "TryLean4Bundle\pr
 rmdir /s /q "Downloads\formalising-mathematics-2024-main"
 :: no need to patch import for this
 
-:::::::: TODO package it with install script and run script ::::::::
+:::::::: TODO package ::::::::
