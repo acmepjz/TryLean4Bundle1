@@ -1,0 +1,2 @@
+msgid "Try Lean4 Windows Bundle Launcher"
+msgstr ""
