@@ -102,4 +102,30 @@ move projects\LeanPlayground\.lake\build\doc\mathjax-config.js projects\LeanPlay
 copy /B projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1 + ..\Resources\mathjax-config-patch.txt projects\LeanPlayground\.lake\build\doc\mathjax-config.js
 del projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1
 
-:: TODO package etc
+:: download brotli
+
+cd ..
+
+curl --retry 5 -L -o "Downloads\brotli-x64-windows-static.zip" "https://github.com/google/brotli/releases/download/v1.1.0/brotli-x64-windows-static.zip"
+tar -x -f "Downloads\brotli-x64-windows-static.zip" -C "Downloads"
+
+:: compress all files using brotli
+
+cd TryLean4Bundle\projects\LeanPlayground\.lake\build\doc
+
+for /r %%F in (*.*) do (
+    if /i not "%%~xF"==".br" (
+        "..\..\..\..\..\..\Downloads\brotli.exe" "%%F"
+    )
+)
+
+:: move them to a new directory
+
+cd ..
+move doc doc_old
+mkdir doc
+robocopy doc_old doc /S /MOV *.br
+
+:: package
+
+tar -a -c -f doc.zip --options "zip:compression=store" doc
