@@ -52,8 +52,8 @@ lake build Batteries:docs Qq:docs Aesop:docs ProofWidgets:docs Mathlib:docs Arch
 :: delete files which are not going to be packaged
 
 cd .lake\build\doc
-del /S /Q *.hash
-del /S /Q *.trace
+del /S /Q *.hash >NUL 2>&1
+del /S /Q *.trace >NUL 2>&1
 del declarations\header-data.bmp
 
 :: download resources
@@ -113,11 +113,15 @@ tar -x -f "Downloads\brotli-x64-windows-static.zip" -C "Downloads"
 
 cd TryLean4Bundle\projects\LeanPlayground\.lake\build\doc
 
+@echo off
+
 for /r %%F in (*.*) do (
     if /i not "%%~xF"==".br" (
         "..\..\..\..\..\..\Downloads\brotli.exe" "%%F"
     )
 )
+
+@echo on
 
 :: move them to a new directory
 

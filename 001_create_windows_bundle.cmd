@@ -131,7 +131,7 @@ rmdir /s /q "Downloads\formalising-mathematics-2024-main"
 
 :::::::: compile launcher ::::::::
 
-001a_compile_launcher.cmd
+cmd /C 001a_compile_launcher.cmd
 
 :::::::: package ::::::::
 
