@@ -39,7 +39,7 @@ class MainWindow:
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
         frame.columnconfigure(2, weight=1)
-        lf = ttk.Labelframe(frame, text=_('mathlib cache status'))
+        lf = ttk.Labelframe(frame, text=_("mathlib cache status"))
         lf.grid(column=0, row=0, sticky="news")
         lf.rowconfigure(0, weight=1)
         lf.columnconfigure(0, weight=1)

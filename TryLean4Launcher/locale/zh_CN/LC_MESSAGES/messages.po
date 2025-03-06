@@ -13,3 +13,48 @@ msgstr ""
 
 msgid "Try Lean4 Windows Bundle Launcher"
 msgstr "Lean4 Windows 懒人包启动器"
+
+msgid "Unpack mathlib cache"
+msgstr "解压缩数学库缓存"
+
+msgid "mathlib cache status"
+msgstr "数学库缓存状态"
+
+msgid "Start Try Lean4 Windows Bundle"
+msgstr "启动 Lean4 Windows 懒人包"
+
+msgid "Start Lean4 VSCode code editor"
+msgstr "启动 Lean4 VSCode 代码编辑器"
+
+msgid "Start Lean4 bash command line"
+msgstr "启动 Lean4 bash 命令行"
+
+msgid "Offline mathlib help"
+msgstr "离线数学库帮助"
+
+msgid "Start offline mathlib help server"
+msgstr "启动离线数学库帮助服务器"
+
+msgid "Stop offline mathlib help server"
+msgstr "停止离线数学库帮助服务器"
+
+msgid "Open offline mathlib help"
+msgstr "打开离线数学库帮助"
+
+msgid "Error"
+msgstr "错误"
+
+msgid "Failed to load file %s"
+msgstr "打开文件 %s 失败"
+
+msgid "Mathlib cache already exists"
+msgstr "数学库缓存已经存在"
+
+msgid "Mathlib cache already exists. Do you want to reinstall?"
+msgstr "数学库缓存已经存在。是否重新安装？"
+
+msgid "Not installed"
+msgstr "未安装"
+
+msgid "Installed"
+msgstr "已安装"

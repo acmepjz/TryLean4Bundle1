@@ -1,2 +1,47 @@
 msgid "Try Lean4 Windows Bundle Launcher"
 msgstr ""
+
+msgid "Unpack mathlib cache"
+msgstr ""
+
+msgid "mathlib cache status"
+msgstr ""
+
+msgid "Start Try Lean4 Windows Bundle"
+msgstr ""
+
+msgid "Start Lean4 VSCode code editor"
+msgstr ""
+
+msgid "Start Lean4 bash command line"
+msgstr ""
+
+msgid "Offline mathlib help"
+msgstr ""
+
+msgid "Start offline mathlib help server"
+msgstr ""
+
+msgid "Stop offline mathlib help server"
+msgstr ""
+
+msgid "Open offline mathlib help"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Failed to load file %s"
+msgstr ""
+
+msgid "Mathlib cache already exists"
+msgstr ""
+
+msgid "Mathlib cache already exists. Do you want to reinstall?"
+msgstr ""
+
+msgid "Not installed"
+msgstr ""
+
+msgid "Installed"
+msgstr ""
