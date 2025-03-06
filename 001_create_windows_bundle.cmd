@@ -129,4 +129,16 @@ move /y "Downloads\formalising-mathematics-2024-main\LICENSE" "TryLean4Bundle\pr
 rmdir /s /q "Downloads\formalising-mathematics-2024-main"
 :: no need to patch import for this
 
-:::::::: TODO package ::::::::
+:::::::: compile launcher ::::::::
+
+001a_compile_launcher.cmd
+
+:::::::: package ::::::::
+
+del TryLean4Bundle.7z
+
+cd TryLean4Bundle
+
+..\Downloads\7zr.exe a -mx9 ..\TryLean4Bundle.7z *
+
+cd ..

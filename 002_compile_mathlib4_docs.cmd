@@ -129,3 +129,9 @@ robocopy doc_old doc /S /MOV *.br
 :: package
 
 tar -a -c -f doc.zip --options "zip:compression=store" doc
+
+:: add doc.zip to existing try lean bundle file
+
+cd ..\..\..\..\..
+
+Downloads\7zr.exe u -mx0 TryLean4Bundle.7z TryLean4Bundle\projects\LeanPlayground\.lake\build\doc.zip
