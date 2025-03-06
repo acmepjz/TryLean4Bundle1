@@ -1,0 +1,47 @@
+
+name: create-windows-bundle
+on:
+  workflow_dispatch:
+
+jobs:
+  mk-windows-bundle:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Create Windows bundle
+        run: cmd /c "001_create_windows_bundle.cmd"
+
+      - name: Compile mathlib4 docs
+        run: cmd /c "002_compile_mathlib4_docs.cmd"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: TryLean4Bundle.7z
+          path: TryLean4Bundle.7z
+          if-no-files-found: error
+
+  release-windows-bundle:
+    needs: mk-windows-bundle
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        id: download
+        with:
+          name: TryLean4Bundle.7z
+
+      - name: showLoc
+        run : echo ${{steps.download.outputs.download-path}}
+
+      - name: showFiles
+        run: cmd /c "dir"
+        
+      - name: Release for Windows
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          files: TryLean4Bundle.7z
