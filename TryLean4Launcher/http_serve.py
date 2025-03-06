@@ -33,7 +33,7 @@ class InMemoryZipHTTPRequestHandler(SimpleHTTPRequestHandler):
             except KeyError:
                 self.send_error(404, "File not found")
                 return
-        
+
         # Check If-None-Match header from the browser
         if 'If-None-Match' in self.headers and self.headers['If-None-Match'] == str(crc32):
             self.send_response(304)  # Not Modified
@@ -53,13 +53,13 @@ class InMemoryZipHTTPRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         """Serve a file from the zip archive"""
-        # Normalize path to ensure no double slashes
-        path = self.path.replace('//', '/')
+        # Normalize path to ensure no backslashes and no double slashes
+        path = self.path.replace('\\', '/')
         while '//' in path:
             path = path.replace('//', '/')
-        
+
         if path.startswith('/'):
-            file_name = path
+            file_name = (path + 'index.html') if path.endswith('/') else path
             self.send_response_from_zip(file_name)
         else:
             super().do_GET()
