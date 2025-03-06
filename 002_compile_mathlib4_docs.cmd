@@ -114,6 +114,9 @@ tar -x -f "Downloads\brotli-x64-windows-static.zip" -C "Downloads"
 cd TryLean4Bundle\projects\LeanPlayground\.lake\build\doc
 
 @echo off
+echo.
+echo Compressing all files using brotli, please wait...
+echo.
 
 for /r %%F in (*.*) do (
     if /i not "%%~xF"==".br" (
@@ -121,6 +124,9 @@ for /r %%F in (*.*) do (
     )
 )
 
+echo.
+echo ... Done.
+echo.
 @echo on
 
 :: move them to a new directory
@@ -136,9 +142,8 @@ tar -a -c -f doc.zip --options "zip:compression=store" doc
 
 :: add doc.zip to existing try lean bundle file
 
+..\..\..\..\..\Downloads\7zr.exe u -mx0 ..\..\..\..\..\TryLean4Bundle.7z doc.zip
 cd ..\..\..\..\..
-
-Downloads\7zr.exe u -mx0 TryLean4Bundle.7z TryLean4Bundle\projects\LeanPlayground\.lake\build\doc.zip
 
 :: TODO error handle
 
