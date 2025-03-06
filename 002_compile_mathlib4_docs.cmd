@@ -124,7 +124,7 @@ for /r %%F in (*.*) do (
 cd ..
 move doc doc_old
 mkdir doc
-robocopy doc_old doc /S /MOV *.br
+robocopy doc_old doc *.br /S /MOV /NFL /NDL /NP
 
 :: package
 
@@ -135,3 +135,7 @@ tar -a -c -f doc.zip --options "zip:compression=store" doc
 cd ..\..\..\..\..
 
 Downloads\7zr.exe u -mx0 TryLean4Bundle.7z TryLean4Bundle\projects\LeanPlayground\.lake\build\doc.zip
+
+:: TODO error handle
+
+exit /b 0

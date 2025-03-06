@@ -142,3 +142,7 @@ cd TryLean4Bundle
 ..\Downloads\7zr.exe a -mx9 ..\TryLean4Bundle.7z *
 
 cd ..
+
+:: TODO error handle
+
+exit /b 0
