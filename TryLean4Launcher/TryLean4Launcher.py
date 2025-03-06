@@ -137,6 +137,12 @@ class MainWindow:
                 self.cache_status.set(_("Installed"))
         except:
             pass
+        try:
+            if os.path.isfile("projects/LeanPlayground/.lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Init.olean"):
+                self.has_cache = True
+                self.cache_status.set(_("Installed"))
+        except:
+            pass
 
 if __name__ == '__main__':
     root = tk.Tk()
