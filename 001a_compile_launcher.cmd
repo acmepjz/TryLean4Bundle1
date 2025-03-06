@@ -22,3 +22,7 @@ cd ..
 move /y TryLean4Launcher\dist\TryLean4Launcher\TryLean4Launcher.exe TryLean4Bundle\
 move /y TryLean4Launcher\dist\TryLean4Launcher\_internal TryLean4Bundle\
 robocopy TryLean4Launcher\locale TryLean4Bundle\locale /S /NFL /NDL /NP
+
+:: TODO error handle
+
+exit /b 0
