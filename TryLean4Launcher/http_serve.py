@@ -3,7 +3,7 @@ import zipfile
 import zlib
 import threading
 from http.server import SimpleHTTPRequestHandler, HTTPServer
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 # Path to the zip file
 ZIP_FILE_PATH = 'doc.zip'
@@ -31,6 +31,14 @@ class InMemoryZipHTTPRequestHandler(SimpleHTTPRequestHandler):
                 crc32 = self.zip_file.getinfo(file_name).CRC  # Get the CRC-32 value from the ZIP file info
                 content_encoding = None
             except KeyError:
+                # check if it's accessing a directory without trailing '/'
+                if not file_name.endswith('/'):
+                    namelist = self.zip_file.namelist()
+                    if (file_name + '/index.html.br') in namelist or (file_name + '/index.html') in namelist:
+                        self.send_response(301)  # Moved Permanently
+                        self.send_header("Location", quote('/' + file_name + '/'))
+                        self.end_headers()
+                        return
                 self.send_error(404, "File not found")
                 return
 

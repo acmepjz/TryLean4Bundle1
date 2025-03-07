@@ -13,11 +13,11 @@ def init_locale():
     def_locale = locale.getdefaultlocale()[0]
     os.environ["LANG"] = def_locale
 
-init_locale()
-gettext.install('messages', 'locale')
-
 class MainWindow:
     def __init__(self, root):
+        init_locale()
+        gettext.install('messages', 'locale')
+
         self.root = root
         self.server_thread = None
         self.has_cache = False
@@ -79,7 +79,8 @@ class MainWindow:
     def start_server(self):
         if self.server_thread is None or not self.server_thread.is_alive():
             try:
-                tmp = zipfile.ZipFile(http_serve.ZIP_FILE_PATH, 'r')
+                with zipfile.ZipFile(http_serve.ZIP_FILE_PATH, 'r') as tmp:
+                    pass
             except:
                 messagebox.showerror(title=_("Error"), message=_("Failed to load file %s") % http_serve.ZIP_FILE_PATH)
                 return
