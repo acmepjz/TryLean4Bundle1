@@ -22,26 +22,3 @@ jobs:
           name: TryLean4Bundle.7z
           path: TryLean4Bundle.7z
           if-no-files-found: error
-
-  release-windows-bundle:
-    needs: mk-windows-bundle
-    runs-on: windows-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        id: download
-        with:
-          name: TryLean4Bundle.7z
-
-      - name: showLoc
-        run : echo ${{steps.download.outputs.download-path}}
-
-      - name: showFiles
-        run: cmd /c "dir"
-        
-      - name: Release for Windows
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          files: TryLean4Bundle.7z
