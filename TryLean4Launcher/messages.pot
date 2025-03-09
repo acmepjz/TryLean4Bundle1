@@ -1,86 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-09 17:19+0800\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: zh_CN\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
 
 #: TryLean4Launcher.py:25
 msgid "Try Lean4 Windows Bundle Launcher"
-msgstr "Lean4 Windows 懒人包启动器"
+msgstr ""
 
 #: TryLean4Launcher.py:34
 msgid "Home"
-msgstr "主页"
+msgstr ""
 
 #: TryLean4Launcher.py:39
 msgid "One click solution"
-msgstr "一键式解决方案"
+msgstr ""
 
 #: TryLean4Launcher.py:41
 msgid "One click to start Try Lean4 Windows Bundle"
-msgstr "一键启动 Lean4 Windows 懒人包"
+msgstr ""
 
 #: TryLean4Launcher.py:43
 msgid "Offline mathlib help"
-msgstr "离线数学库帮助"
+msgstr ""
 
 #: TryLean4Launcher.py:49
 msgid "Start offline mathlib help server"
-msgstr "启动离线数学库帮助服务器"
+msgstr ""
 
 #: TryLean4Launcher.py:51
 msgid "Stop offline mathlib help server"
-msgstr "停止离线数学库帮助服务器"
+msgstr ""
 
 #: TryLean4Launcher.py:53
 msgid "Open offline mathlib help"
-msgstr "打开离线数学库帮助"
+msgstr ""
 
 #: TryLean4Launcher.py:57
 msgid "Advanced"
-msgstr "高级"
+msgstr ""
 
 #: TryLean4Launcher.py:62 TryLean4Launcher.py:74 TryLean4Launcher.py:129
 #: TryLean4Launcher.py:142
 msgid "Unpack mathlib cache"
-msgstr "解压缩数学库缓存"
+msgstr ""
 
 #: TryLean4Launcher.py:68
 msgid "mathlib cache status"
-msgstr "数学库缓存状态"
+msgstr ""
 
 #: TryLean4Launcher.py:77
 msgid "Start Try Lean4 Windows Bundle"
-msgstr "启动 Lean4 Windows 懒人包"
+msgstr ""
 
 #: TryLean4Launcher.py:83
 msgid "Start Lean4 VSCode code editor"
-msgstr "启动 Lean4 VSCode 代码编辑器"
+msgstr ""
 
 #: TryLean4Launcher.py:84
 msgid "Start Lean4 bash command line"
-msgstr "启动 Lean4 bash 命令行"
+msgstr ""
 
 #: TryLean4Launcher.py:94 TryLean4Launcher.py:165
 msgid "Error"
-msgstr "错误"
+msgstr ""
 
 #: TryLean4Launcher.py:94 TryLean4Launcher.py:165
 #, python-format
 msgid "Failed to load file '%s'. Please check the installation is correct."
-msgstr "打开文件 '%s' 失败。请检查安装是否正确。"
+msgstr ""
 
 #: TryLean4Launcher.py:126
 msgid "Mathlib cache already exists"
-msgstr "数学库缓存已经存在"
+msgstr ""
 
 #: TryLean4Launcher.py:126
 msgid ""
@@ -88,9 +93,6 @@ msgid ""
 "\n"
 "The installation process will take 5 minutes."
 msgstr ""
-"数学库缓存已经存在。是否重新安装？\n"
-"\n"
-"安装过程大约需要 5 分钟。"
 
 #: TryLean4Launcher.py:129
 msgid ""
@@ -98,9 +100,6 @@ msgid ""
 "\n"
 "The installation process will take 5 minutes."
 msgstr ""
-"是否安装数学库缓存？\n"
-"\n"
-"安装过程大约需要 5 分钟。"
 
 #: TryLean4Launcher.py:142
 msgid ""
@@ -113,20 +112,11 @@ msgid ""
 "- Choose 'no' to run VSCode directly, note that 'import Mathlib' will be not "
 "not available."
 msgstr ""
-"看起来这是您第一次使用 Lean4 Windows 懒人包。\n"
-"数学库缓存尚未安装。是否安装数学库缓存？\n"
-"\n"
-"- 选“是”安装数学库缓存（推荐）。安装过程大约需要 5 分钟。\n"
-"- 选“否”将直接启动 VSCode 代码编辑器，'import Mathlib' 功能将不可用。"
 
 #: TryLean4Launcher.py:176
 msgid "Not installed"
-msgstr "未安装"
+msgstr ""
 
 #: TryLean4Launcher.py:180 TryLean4Launcher.py:186
 msgid "Installed"
-msgstr "已安装"
-
-#, python-format
-#~ msgid "Failed to load file %s"
-#~ msgstr "打开文件 %s 失败"
+msgstr ""
