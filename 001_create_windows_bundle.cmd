@@ -52,9 +52,9 @@ rmdir /s /q Downloads\lean4ext
 
 :: copy install scripts
 
-copy Resources\unpack_cache.cmd TryLean4Bundle\
-copy Resources\start_Lean_VSCode.cmd TryLean4Bundle\
-copy Resources\start_Lean_bash.cmd TryLean4Bundle\
+copy Resources\unpack_cache.cmd TryLean4Bundle\scripts\
+copy Resources\start_Lean_VSCode.cmd TryLean4Bundle\scripts\
+copy Resources\start_Lean_bash.cmd TryLean4Bundle\scripts\
 
 :::::::: setup environment variable ::::::::
 
