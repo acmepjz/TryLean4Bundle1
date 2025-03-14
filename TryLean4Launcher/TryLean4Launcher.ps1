@@ -15,6 +15,16 @@ $msgTable = Data {
     startBundle = Start Try Lean4 Windows Bundle
     startVSCode = Start Lean4 VSCode code editor
     startBash = Start Lean4 bash command line
+    error = Error
+    fileNotFound = Failed to load file '{0}'. Please check the installation is correct.
+    cacheAlreadyExists = Mathlib cache already exists
+    unpackCacheMsg = Do you want to install mathlib cache?
+    unpackCacheTime = The installation process will take 5 minutes.
+    cacheAlreadyExistsMsg = Mathlib cache already exists. Do you want to reinstall?
+    firstTimeUse = Seems that it's the first time you using Try Lean4 Windows Bundle.
+    firstTimeUse2 = The mathlib cache is not installed yet. Do you want to install mathlib cache?
+    firstTimeUse3 = - Choose 'yes' to install mathlib cache (recommended). {0}
+    firstTimeUse4 = - Choose 'no' to run VSCode directly, note that 'import Mathlib' will be not available.
 '@
 }
 
@@ -30,18 +40,89 @@ Function Merge-Hashtables {
     $Output
 }
 
+$msgTable = Merge-Hashtables $msgTable $localizedMsgTable
+
+Function Check-AtLeastOneFileExists {
+    ForEach ($FileName in ($Input + $Args)) {
+        $exists = Test-Path -Path $FileName -PathType Leaf
+        If ($exists) {
+            Return $true
+        }
+    }
+    $false
+}
+
+Function Check-AllFileExists-And-Report {
+    ForEach ($FileName in ($Input + $Args)) {
+        $exists = Test-Path -Path $FileName -PathType Leaf
+        If (-Not $exists) {
+            $msg = ($msgTable.fileNotFound -f $FileName)
+            [void]([System.Windows.Forms.MessageBox]::Show($msg, $msgTable.error, "OK", "Error"))
+            Return $false
+        }
+    }
+    $true
+}
+
 Function Check-CacheStatus {
     $script:cacheStatusLabel.Text = $msgTable.notInstalled
     $script:hasCache = $false
-    $exists = Test-Path -Path "projects\LeanPlayground\.lake\packages\mathlib\.lake\build\lib\Mathlib\Init.olean" -PathType Leaf
-    $exists2 = Test-Path -Path "projects\LeanPlayground\.lake\packages\mathlib\.lake\build\lib\lean\Mathlib\Init.olean" -PathType Leaf
+    $exists = Check-AtLeastOneFileExists "projects\LeanPlayground\.lake\packages\mathlib\.lake\build\lib\Mathlib\Init.olean" "projects\LeanPlayground\.lake\packages\mathlib\.lake\build\lib\lean\Mathlib\Init.olean"
     If ($exists -Or $exists2) {
         $script:cacheStatusLabel.Text = $msgTable.installed
         $script:hasCache = $true
     }
 }
 
-$msgTable = Merge-Hashtables $msgTable $localizedMsgTable
+Function Start-VSCode {
+    $exists = Check-AllFileExists-And-Report "scripts\setup_env_variables.cmd" "scripts\start_Lean_VSCode.cmd"
+    If ($exists) {
+        Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"cd scripts && start_Lean_VSCode.cmd`""
+    }
+}
+
+Function Start-Bash {
+    $exists = Check-AllFileExists-And-Report "scripts\setup_env_variables.cmd" "scripts\start_Lean_bash.cmd"
+    If ($exists) {
+        Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"cd scripts && start_Lean_bash.cmd`""
+    }
+}
+
+Function Do-UnpackCache {
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"cd scripts && unpack_cache.cmd /y`"" -Wait
+    Start-Sleep 0.1
+    Check-CacheStatus
+}
+
+Function Unpack-Cache {
+    $exists = Check-AllFileExists-And-Report "scripts\setup_env_variables.cmd" "scripts\unpack_cache.cmd"
+    If (-Not $exists) {
+        Return
+    }
+    $title = If ($script:hasCache) { $msgTable.cacheAlreadyExists } Else { $msgTable.unpackCache }
+    $msg = If ($script:hasCache) { $msgTable.cacheAlreadyExistsMsg } Else { $msgTable.unpackCacheMsg }
+    $msg = $msg + "`n`n" + $msgTable.unpackCacheTime
+    $ret = [System.Windows.Forms.MessageBox]::Show($msg, $title, "YesNo", "Question")
+    If ($ret -ne [System.Windows.Forms.DialogResult]::Yes) {
+        Return
+    }
+    Do-UnpackCache
+}
+
+Function Unpack-And-Start-VSCode {
+    $exists = Check-AllFileExists-And-Report "scripts\setup_env_variables.cmd" "scripts\unpack_cache.cmd" "scripts\start_Lean_VSCode.cmd"
+    If (-Not $exists) {
+        Return
+    }
+    If (-Not $script:hasCache) {
+        $msg = $msgTable.firstTimeUse + "`n" + $msgTable.firstTimeUse2 + "`n`n" + ($msgTable.firstTimeUse3 -f $msgTable.unpackCacheTime) + "`n" + $msgTable.firstTimeUse4
+        $ret = [System.Windows.Forms.MessageBox]::Show($msg, $msgTable.unpackCache, "YesNo", "Question")
+        If ($ret -eq [System.Windows.Forms.DialogResult]::Yes) {
+            Do-UnpackCache
+        }
+    }
+    Start-VSCode
+}
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -91,6 +172,7 @@ $button.Dock = "Fill"
 $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.oneClickStart
 $button.Image = $leanImage
+$button.Add_Click({ Unpack-And-Start-VSCode })
 $subPanel.Controls.Add($button)
 
 $tabPage = [System.Windows.Forms.TabPage]::new()
@@ -177,6 +259,7 @@ $button.Dock = "Fill"
 $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.unpackCache
 $button.Image = $unpackImage
+$button.Add_Click({ Unpack-Cache })
 $subPanel.Controls.Add($button)
 
 $groupBox = [System.Windows.Forms.GroupBox]::new()
@@ -199,6 +282,7 @@ $button.Dock = "Fill"
 $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.startVSCode
 $button.Image = $editImage
+$button.Add_Click({ Start-VSCode })
 $subPanel.Controls.Add($button)
 
 $button = [System.Windows.Forms.Button]::new()
@@ -206,6 +290,7 @@ $button.Dock = "Fill"
 $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.startBash
 $button.Image = $terminalImage
+$button.Add_Click({ Start-Bash })
 $subPanel.Controls.Add($button)
 
 [void]$mainForm.ShowDialog()
