@@ -23,8 +23,8 @@ $msgTable = Data {
     cacheAlreadyExistsMsg = Mathlib cache already exists. Do you want to reinstall?
     firstTimeUse = Seems that it's the first time you using Try Lean4 Windows Bundle.
     firstTimeUse2 = The mathlib cache is not installed yet. Do you want to install mathlib cache?
-    firstTimeUse3 = - Choose 'yes' to install mathlib cache (recommended). {0}
-    firstTimeUse4 = - Choose 'no' to run VSCode directly, note that 'import Mathlib' will be not available.
+    firstTimeUse3 = Choose 'yes' to install mathlib cache (recommended).
+    firstTimeUse4 = Choose 'no' to run VSCode directly, note that 'import Mathlib' will be not available.
 '@
 }
 
@@ -68,7 +68,7 @@ Function Check-CacheStatus {
     $script:cacheStatusLabel.Text = $msgTable.notInstalled
     $script:hasCache = $false
     $exists = Check-AtLeastOneFileExists "projects\LeanPlayground\.lake\packages\mathlib\.lake\build\lib\Mathlib\Init.olean" "projects\LeanPlayground\.lake\packages\mathlib\.lake\build\lib\lean\Mathlib\Init.olean"
-    If ($exists -Or $exists2) {
+    If ($exists) {
         $script:cacheStatusLabel.Text = $msgTable.installed
         $script:hasCache = $true
     }
@@ -115,7 +115,7 @@ Function Unpack-And-Start-VSCode {
         Return
     }
     If (-Not $script:hasCache) {
-        $msg = $msgTable.firstTimeUse + "`n" + $msgTable.firstTimeUse2 + "`n`n" + ($msgTable.firstTimeUse3 -f $msgTable.unpackCacheTime) + "`n" + $msgTable.firstTimeUse4
+        $msg = $msgTable.firstTimeUse + "`n" + $msgTable.firstTimeUse2 + "`n`n- " + $msgTable.firstTimeUse3 + " " + $msgTable.unpackCacheTime + "`n- " + $msgTable.firstTimeUse4
         $ret = [System.Windows.Forms.MessageBox]::Show($msg, $msgTable.unpackCache, "YesNo", "Question")
         If ($ret -eq [System.Windows.Forms.DialogResult]::Yes) {
             Do-UnpackCache
