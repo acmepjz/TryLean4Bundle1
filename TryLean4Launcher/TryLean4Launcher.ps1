@@ -77,20 +77,20 @@ Function Check-CacheStatus {
 Function Start-VSCode {
     $exists = Check-AllFileExists-And-Report "scripts\setup_env_variables.cmd" "scripts\start_Lean_VSCode.cmd"
     If ($exists) {
-        Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"cd scripts && start_Lean_VSCode.cmd`""
+        Start-Process -FilePath "cmd" -ArgumentList "/c `"cd scripts && start_Lean_VSCode.cmd`""
     }
 }
 
 Function Start-Bash {
     $exists = Check-AllFileExists-And-Report "scripts\setup_env_variables.cmd" "scripts\start_Lean_bash.cmd"
     If ($exists) {
-        Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"cd scripts && start_Lean_bash.cmd`""
+        Start-Process -FilePath "cmd" -ArgumentList "/c `"cd scripts && start_Lean_bash.cmd`""
     }
 }
 
 Function Do-UnpackCache {
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"cd scripts && unpack_cache.cmd /y`"" -Wait
-    Start-Sleep 0.1
+    Start-Process -FilePath "cmd" -ArgumentList "/c `"cd scripts && unpack_cache.cmd /y`"" -Wait
+    Start-Sleep -Milliseconds 100
     Check-CacheStatus
 }
 
@@ -124,6 +124,57 @@ Function Unpack-And-Start-VSCode {
     Start-VSCode
 }
 
+Function Start-Browser {
+    Start "http://127.0.0.1:13480/doc/index.html"
+}
+
+$serverProcess = $null
+
+Function Start-Server {
+    $exists = Check-AllFileExists-And-Report "doc.zip"
+    If (-Not $exists) {
+        Return
+    }
+    $script:serverProcess = Start-Process -FilePath "powershell" -ArgumentList "-ExecutionPolicy Bypass -File `"$PSScriptRoot\HttpServe.ps1`"" -NoNewWindow -PassThru
+    Start-Sleep -Milliseconds 500
+    if (-Not $script:serverProcess.HasExited) {
+        Start-Browser
+        $startServerButton.Enabled = $false
+        $stopServerButton.Enabled = $true
+        $startBrowserButton.Enabled = $true
+    }
+}
+
+Function Do-StopServer {
+    if ($script:serverProcess -ne $null) {
+        if (-Not $script:serverProcess.HasExited) {
+            [MyNamespace.MyClass]::SendCtrlC($script:serverProcess.Id)
+            $script:serverProcess.WaitForExit()
+        }
+        $script:serverProcess = $null
+    }
+}
+
+Function Stop-Server {
+    Do-StopServer
+    $startServerButton.Enabled = $true
+    $stopServerButton.Enabled = $false
+    $startBrowserButton.Enabled = $false
+}
+
+$code_MyClass = '
+[DllImport("kernel32.dll")] public static extern bool FreeConsole();
+[DllImport("kernel32.dll")] public static extern bool AttachConsole(uint p);
+[DllImport("kernel32.dll")] public static extern bool GenerateConsoleCtrlEvent(uint e, uint p);
+public static void SendCtrlC(uint p) {
+    FreeConsole();
+    AttachConsole(p);
+    GenerateConsoleCtrlEvent(0, p);
+    FreeConsole();
+    AttachConsole(uint.MaxValue);
+}'
+
+Add-Type -Name 'MyClass' -Namespace 'MyNamespace' -MemberDefinition $code_MyClass
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -195,7 +246,9 @@ $button.Dock = "Fill"
 $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.startServer
 $button.Image = $startImage
+$button.Add_Click({ Start-Server })
 $subPanel.Controls.Add($button)
+$startServerButton = $button
 
 $button = [System.Windows.Forms.Button]::new()
 $button.Dock = "Fill"
@@ -203,7 +256,9 @@ $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.stopServer
 $button.Image = $stopImage
 $button.Enabled = $false
+$button.Add_Click({ Stop-Server })
 $subPanel.Controls.Add($button)
+$stopServerButton = $button
 
 $button = [System.Windows.Forms.Button]::new()
 $button.Dock = "Fill"
@@ -211,7 +266,9 @@ $button.TextImageRelation = "ImageAboveText"
 $button.Text = $msgTable.showHelp
 $button.Image = $searchImage
 $button.Enabled = $false
+$button.Add_Click({ Start-Browser })
 $subPanel.Controls.Add($button)
+$startBrowserButton = $button
 
 $tabPage = [System.Windows.Forms.TabPage]::new()
 $tabPage.Text = $msgTable.advanced
@@ -294,3 +351,5 @@ $button.Add_Click({ Start-Bash })
 $subPanel.Controls.Add($button)
 
 [void]$mainForm.ShowDialog()
+
+Do-StopServer
