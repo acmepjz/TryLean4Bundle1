@@ -3,6 +3,9 @@ name: create-windows-bundle
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   mk-windows-bundle:
     runs-on: windows-2022
@@ -13,8 +16,8 @@ jobs:
       - name: Create Windows bundle
         run: cmd /c "001_create_windows_bundle.cmd"
 
-      - name: Compile mathlib4 docs
-        run: cmd /c "002_compile_mathlib4_docs.cmd"
+#      - name: Compile mathlib4 docs
+#        run: cmd /c "002_compile_mathlib4_docs.cmd"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -22,3 +25,8 @@ jobs:
           name: TryLean4Bundle.7z
           path: TryLean4Bundle.7z
           if-no-files-found: error
+
+      - name: Upload to GitHub release
+        run: cmd /c "999_upload_to_github_release.cmd"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
