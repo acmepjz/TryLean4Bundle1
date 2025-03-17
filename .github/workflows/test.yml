@@ -1,0 +1,24 @@
+
+name: create-windows-bundle
+on:
+  workflow_dispatch:
+
+jobs:
+  mk-windows-bundle:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Test
+        run: |
+          $OTHER_REPO = "leanprover-community/mathlib4_docs"
+          $WF_NAME = "docs.yaml"
+          $ARTIFACT_NAME = "github-pages"
+          $RUN_ID = & gh run --repo "$OTHER_REPO" list --workflow "$WF_NAME" --json databaseId --jq .[0].databaseId
+          Write-Host "RUN_ID = $RUN_ID"
+          gh run --repo "$OTHER_REPO" download "$RUN_ID" -n "$ARTIFACT_NAME"
+          # List the artifiact directory/files
+          cmd /c "dir"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
