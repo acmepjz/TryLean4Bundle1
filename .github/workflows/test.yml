@@ -1,5 +1,5 @@
 
-name: create-windows-bundle
+name: test
 on:
   workflow_dispatch:
 
