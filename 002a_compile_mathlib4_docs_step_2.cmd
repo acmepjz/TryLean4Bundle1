@@ -83,10 +83,10 @@ echo.
 
 :: move them to a new directory
 
-cd ..
-move doc doc_old
-mkdir doc
-robocopy doc_old doc *.br /S /MOV /NFL /NDL /NP
+cd ..\..
+mkdir build_new
+robocopy build\doc build_new\doc *.br /S /MOV /NFL /NDL /NP
+cd build_new
 
 :: package
 
