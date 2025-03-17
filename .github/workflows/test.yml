@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  mk-windows-bundle:
+  test-download-mathlib4-docs:
     runs-on: windows-2022
     steps:
       - name: Checkout Repo

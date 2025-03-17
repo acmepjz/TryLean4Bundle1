@@ -18,16 +18,10 @@ cd ..
 
 :::::::: install components ::::::::
 
-mkdir TryLean4Bundle
 mkdir TryLean4Bundle\PortableGit
-mkdir TryLean4Bundle\VSCodium
-mkdir TryLean4Bundle\VSCodium\data
 mkdir TryLean4Bundle\VSCodium\data\extensions
-mkdir TryLean4Bundle\VSCodium\data\user-data
 mkdir TryLean4Bundle\VSCodium\data\user-data\User
-mkdir TryLean4Bundle\Cache
 mkdir TryLean4Bundle\Cache\mathlib
-mkdir TryLean4Bundle\Elan
 mkdir TryLean4Bundle\Elan\bin
 mkdir TryLean4Bundle\scripts
 mkdir TryLean4Bundle\projects
