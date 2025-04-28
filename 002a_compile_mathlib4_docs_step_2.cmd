@@ -1,30 +1,71 @@
+@echo off
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: ASSUME we are in TryLean4Bundle\projects\LeanPlayground\.lake\build\doc ::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: delete files which are not going to be packaged
 
+echo ::group::delete files which are not going to be packaged
+
 del /S /Q *.hash >NUL 2>&1
 del /S /Q *.trace >NUL 2>&1
 del declarations\header-data.bmp
 
+echo ::endgroup::
+
 :: download resources
+
+echo ::group::download resources
 
 cd ..\..\..\..\..\..
 
-curl --retry 5 -L -o "Downloads\lato-font.zip" "https://github.com/betsol/lato-font/archive/refs/heads/master.zip"
+call 000_setup_urls.cmd
+
+echo downloading lato-font
+curl --retry 5 -L -o "Downloads\lato-font.zip" "%LATO_FONT_URL%"
+if %ERRORLEVEL% NEQ 0 (
+	echo ::error::download failed with error code %ERRORLEVEL%
+	exit /b %ERRORLEVEL%
+)
+echo downloading juliamono
+curl --retry 5 -L -o "Downloads\juliamono.zip" "%JULIAMONO_URL%"
+if %ERRORLEVEL% NEQ 0 (
+	echo ::error::download failed with error code %ERRORLEVEL%
+	exit /b %ERRORLEVEL%
+)
+echo downloading MathJax
+curl --retry 5 -L -o "Downloads\MathJax.zip" "%MATHJAX_URL%"
+if %ERRORLEVEL% NEQ 0 (
+	echo ::error::download failed with error code %ERRORLEVEL%
+	exit /b %ERRORLEVEL%
+)
+echo downloading brotli
+curl --retry 5 -L -o "Downloads\brotli-x64-windows-static.zip" "%BROTLI_URL%"
+if %ERRORLEVEL% NEQ 0 (
+	echo ::error::download failed with error code %ERRORLEVEL%
+	exit /b %ERRORLEVEL%
+)
+
+echo ::endgroup::
+
+echo ::group::extract resources
+
 tar -x -f "Downloads\lato-font.zip" -C "Downloads"
-curl --retry 5 -L -o "Downloads\juliamono.zip" "https://github.com/cormullion/juliamono/archive/refs/heads/master.zip"
 tar -x -f "Downloads\juliamono.zip" -C "Downloads"
 :: drop IE11 support
-curl --retry 5 -L -o "Downloads\MathJax.zip" "https://github.com/mathjax/MathJax/archive/refs/heads/master.zip"
 tar -x -f "Downloads\MathJax.zip" -C "Downloads"
+tar -x -f "Downloads\brotli-x64-windows-static.zip" -C "Downloads"
 
 cd Downloads\lato-font-master\fonts
 del /S /Q *.woff
 cd ..\..\..
 
+echo ::endgroup::
+
 :: copy resources
+
+echo ::group::copy resources
 
 mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\lato-font
 move /y Downloads\lato-font-master\css TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\lato-font\
@@ -42,33 +83,33 @@ rmdir /s /q "Downloads\lato-font-master"
 rmdir /s /q "Downloads\juliamono-master"
 rmdir /s /q "Downloads\MathJax-master"
 
+echo ::endgroup::
+
 cd TryLean4Bundle
 
 :: patch style.css
 
+echo ::group::patch style.css
+
 ".\PortableGit\bin\bash.exe" -c "cd projects/LeanPlayground/.lake/build/doc && ../../../../../../Resources/patch_style_css.sh style.css"
 
+echo ::endgroup::
+
 :: patch MathJax loader
+
+echo ::group::patch MathJax loader
 
 move projects\LeanPlayground\.lake\build\doc\mathjax-config.js projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1
 copy /B projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1 + ..\Resources\mathjax-config-patch.txt projects\LeanPlayground\.lake\build\doc\mathjax-config.js
 del projects\LeanPlayground\.lake\build\doc\mathjax-config.js.1
 
-:: download brotli
-
-cd ..
-
-curl --retry 5 -L -o "Downloads\brotli-x64-windows-static.zip" "https://github.com/google/brotli/releases/download/v1.1.0/brotli-x64-windows-static.zip"
-tar -x -f "Downloads\brotli-x64-windows-static.zip" -C "Downloads"
+echo ::endgroup::
 
 :: compress all files using brotli
 
-cd TryLean4Bundle\projects\LeanPlayground\.lake\build\doc
+echo ::group::compress all files using brotli (this may take a long time)
 
-@echo off
-echo.
-echo Compressing all files using brotli, please wait...
-echo.
+cd projects\LeanPlayground\.lake\build\doc
 
 for /r %%F in (*.*) do (
     if /i not "%%~xF"==".br" (
@@ -76,25 +117,46 @@ for /r %%F in (*.*) do (
     )
 )
 
-echo.
-echo ... Done.
-echo.
-@echo on
+echo ::endgroup::
 
 :: move them to a new directory
+
+echo ::group::move files
 
 cd ..\..
 mkdir build_new
 robocopy build\doc build_new\doc *.br /S /MOV /NFL /NDL /NP
 cd build_new
 
+echo ::endgroup::
+
 :: package
+
+echo ::group::package files
 
 tar -a -c -f doc.zip --options "zip:compression=store" doc
 
-:: add doc.zip to existing try lean bundle file
+echo ::endgroup::
+
+:: add doc.zip to TryLean4Bundle.7z
+
+echo ::group::add doc.zip to TryLean4Bundle.7z
 
 ..\..\..\..\..\Downloads\7zr.exe u -mx0 ..\..\..\..\..\TryLean4Bundle.7z doc.zip
+
+echo ::endgroup::
+
+:: package offline mathlib help (TODO: this can be done without Lean installed)
+
+echo ::group::package OfflineMathlibHelp.7z
+
+cd ..\..\..\..
+
+del ..\OfflineMathlibHelp.7z
+..\Downloads\7zr.exe a -mx9 ..\OfflineMathlibHelp.7z TryLean4Launcher.cmd TryLean4Launcher
+..\Downloads\7zr.exe u -mx0 ..\OfflineMathlibHelp.7z projects\LeanPlayground\.lake\build_new\doc.zip
+
+echo ::endgroup::
 
 :: TODO error handle
 

@@ -1,3 +1,5 @@
+@echo off
+
 :: copy files
 
 robocopy TryLean4Launcher TryLean4Bundle\TryLean4Launcher /S /NFL /NDL /NP
