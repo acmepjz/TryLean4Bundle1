@@ -154,7 +154,8 @@ cd ..\..\..\..
 
 del ..\OfflineMathlibHelp.7z
 ..\Downloads\7zr.exe a -mx9 ..\OfflineMathlibHelp.7z TryLean4Launcher.cmd TryLean4Launcher
-..\Downloads\7zr.exe u -mx0 ..\OfflineMathlibHelp.7z projects\LeanPlayground\.lake\build_new\doc.zip
+cd projects\LeanPlayground\.lake\build_new
+..\..\..\..\..\Downloads\7zr.exe u -mx0 ..\..\..\..\..\OfflineMathlibHelp.7z doc.zip
 
 echo ::endgroup::
 
