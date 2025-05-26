@@ -53,7 +53,7 @@ class InMemoryZipHTTPRequestHandler(SimpleHTTPRequestHandler):
         self.send_header("Content-type", self.guess_type(file_name))
         self.send_header("Content-length", len(file_data))
         self.send_header("ETag", str(crc32))  # Send CRC as ETag
-        self.send_header("Cache-Control", "max-age=3600")  # Cache for 1 hour
+        self.send_header("Cache-Control", "public, max-age=3600")  # Cache for 1 hour
         if not content_encoding is None:
             self.send_header("Content-Encoding", content_encoding)
         self.end_headers()
