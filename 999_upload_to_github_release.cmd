@@ -1,5 +1,5 @@
 @echo off
-gh release upload nightly TryLean4Bundle.7z OfflineMathlibHelp.7z doc_version.txt --clobber
+gh release upload nightly TryLean4Bundle.7z OfflineMathlibHelp.7z doc_version.txt doc.zip --clobber
 if %ERRORLEVEL% NEQ 0 (
 	echo ::error::upload failed with error code %ERRORLEVEL%
 	exit /b %ERRORLEVEL%

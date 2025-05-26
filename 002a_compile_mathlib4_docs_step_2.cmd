@@ -170,6 +170,9 @@ del ..\OfflineMathlibHelp.7z
 cd projects\LeanPlayground\.lake\build_new
 ..\..\..\..\..\Downloads\7zr.exe u -mx0 ..\..\..\..\..\OfflineMathlibHelp.7z doc.zip
 
+:: move file
+move doc.zip ..\..\..\..\..\doc.zip
+
 echo ::endgroup::
 
 :: TODO error handle
