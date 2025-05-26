@@ -14,6 +14,18 @@ del declarations\header-data.bmp
 
 echo ::endgroup::
 
+:: check mathlib doc version
+
+echo ::group::check mathlib doc version
+
+powershell -ExecutionPolicy Bypass -File ..\..\..\..\..\..\Resources\check_mathlib_doc_version.ps1
+
+type doc_version.txt
+
+move doc_version.txt ..\..\..\..\..\..\doc_version.txt
+
+echo ::endgroup::
+
 :: download resources
 
 echo ::group::download resources
@@ -134,6 +146,7 @@ echo ::endgroup::
 
 echo ::group::package files
 
+copy ..\..\..\..\..\doc_version.txt doc\doc_version.txt
 tar -a -c -f doc.zip --options "zip:compression=store" doc
 
 echo ::endgroup::
