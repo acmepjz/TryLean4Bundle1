@@ -24,12 +24,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: TryLean4Bundle.7z
-          path: TryLean4Bundle.7z
-          if-no-files-found: error
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: TryLean4Bundle.7z
+#          path: TryLean4Bundle.7z
+#          if-no-files-found: error
 
       - name: Upload to GitHub release
         run: cmd /c "999_upload_to_github_release.cmd"
