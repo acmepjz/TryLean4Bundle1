@@ -3,7 +3,8 @@ try {
 	$A = $A[0].Matches[0].Groups[1].Value
 	Out-File -FilePath .\doc_version.txt -InputObject $A -Encoding ascii
 	try {
-		gh api "/repos/leanprover-community/mathlib4/commits/$A" --jq ".commit.author.date" | Out-File -FilePath .\doc_version.txt -Append -Encoding ascii
+		$B = & gh api "/repos/leanprover-community/mathlib4/commits/$A" --jq ".commit.author.date"
+		Out-File -FilePath .\doc_version.txt -Append -InputObject $B -Encoding ascii
 	} catch {
 		Write-Host "::warning::failed to get git commit time from git commit hash (gh not installed?)"
 	}
