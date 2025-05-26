@@ -20,5 +20,9 @@ jobs:
           gh run --repo "$OTHER_REPO" download "$RUN_ID" -n "$ARTIFACT_NAME"
           # List the artifiact directory/files
           cmd /c "dir"
+          # test
+          $A = "82012aca9087eccd1be07d4acf2e12207e88a92f"
+          $B = & gh api "/repos/leanprover-community/mathlib4/commits/$A" --jq ".commit.author.date"
+          Write-Host $B
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
