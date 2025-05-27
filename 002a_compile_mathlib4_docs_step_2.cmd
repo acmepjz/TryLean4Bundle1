@@ -157,21 +157,24 @@ echo ::group::add doc.zip to TryLean4Bundle.7z
 
 ..\..\..\..\..\Downloads\7zr.exe u -mx0 ..\..\..\..\..\TryLean4Bundle.7z doc.zip
 
+:: move file
+move doc.zip ..\..\..\..\..\doc.zip
+
 echo ::endgroup::
 
 :: package offline mathlib help (TODO: this can be done without Lean installed)
 
-echo ::group::package OfflineMathlibHelp.7z
+echo ::group::package OfflineMathlibHelp.zip (without doc.zip)
 
 cd ..\..\..\..
 
-del ..\OfflineMathlibHelp.7z
-..\Downloads\7zr.exe a -mx9 ..\OfflineMathlibHelp.7z TryLean4Launcher.cmd TryLean4Launcher
-cd projects\LeanPlayground\.lake\build_new
-..\..\..\..\..\Downloads\7zr.exe u -mx0 ..\..\..\..\..\OfflineMathlibHelp.7z doc.zip
+del ..\OfflineMathlibHelpWindows.zip
+tar -a -c -f ..\OfflineMathlibHelpWindows.zip OfflineMathlibHelp.cmd TryLean4Launcher
 
-:: move file
-move doc.zip ..\..\..\..\..\doc.zip
+cd ..
+
+del OfflineMathlibHelpPython.zip
+tar -a -c -f OfflineMathlibHelpPython.zip OfflineMathlibHelpPython
 
 echo ::endgroup::
 
