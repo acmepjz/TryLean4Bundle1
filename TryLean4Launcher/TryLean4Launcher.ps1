@@ -1,3 +1,7 @@
+Param (
+    [Switch]$OnlyOfflineMathlibHelp = $false
+)
+
 $msgTable = Data {
     ConvertFrom-StringData @'
     formTitle = Try Lean4 Windows Bundle Launcher
@@ -290,7 +294,11 @@ $unpackImage = [System.Drawing.Image]::FromFile("$PSScriptRoot\unpack.png")
 
 $mainForm = [System.Windows.Forms.Form]::new()
 $mainForm.ClientSize = '800, 480'
-$mainForm.Text = $msgTable.formTitle
+If ($OnlyOfflineMathlibHelp) {
+    $mainForm.Text = $msgTable.offlineHelp
+} Else {
+    $mainForm.Text = $msgTable.formTitle
+}
 
 $mainPanel = [System.Windows.Forms.TableLayoutPanel]::new()
 $mainPanel.Dock = "Fill"
@@ -305,26 +313,28 @@ $tabControl = [System.Windows.Forms.TabControl]::new()
 $tabControl.Dock = "Fill"
 $mainPanel.Controls.Add($tabControl)
 
-$tabPage = [System.Windows.Forms.TabPage]::new()
-$tabPage.Text = $msgTable.home
-$tabControl.Controls.Add($tabPage)
+If (-Not $OnlyOfflineMathlibHelp) {
+    $tabPage = [System.Windows.Forms.TabPage]::new()
+    $tabPage.Text = $msgTable.home
+    $tabControl.Controls.Add($tabPage)
 
-$subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
-$subPanel.Dock = "Fill"
-$subPanel.Padding = 4
-$subPanel.RowCount = 1
-$subPanel.ColumnCount = 1
-[void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 100))
-$tabPage.Controls.Add($subPanel)
+    $subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
+    $subPanel.Dock = "Fill"
+    $subPanel.Padding = 4
+    $subPanel.RowCount = 1
+    $subPanel.ColumnCount = 1
+    [void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
+    [void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 100))
+    $tabPage.Controls.Add($subPanel)
 
-$button = [System.Windows.Forms.Button]::new()
-$button.Dock = "Fill"
-$button.TextImageRelation = "ImageAboveText"
-$button.Text = $msgTable.oneClickStart
-$button.Image = $leanImage
-$button.Add_Click({ Unpack-And-Start-VSCode })
-$subPanel.Controls.Add($button)
+    $button = [System.Windows.Forms.Button]::new()
+    $button.Dock = "Fill"
+    $button.TextImageRelation = "ImageAboveText"
+    $button.Text = $msgTable.oneClickStart
+    $button.Image = $leanImage
+    $button.Add_Click({ Unpack-And-Start-VSCode })
+    $subPanel.Controls.Add($button)
+}
 
 $tabPage = [System.Windows.Forms.TabPage]::new()
 $tabPage.Text = $msgTable.offlineHelp
@@ -379,85 +389,87 @@ $button.Add_Click({ Update-MathlibHelp })
 $subPanel.Controls.Add($button)
 $updateHelpButton = $button
 
-$tabPage = [System.Windows.Forms.TabPage]::new()
-$tabPage.Text = $msgTable.advanced
-$tabControl.Controls.Add($tabPage)
+If (-Not $OnlyOfflineMathlibHelp) {
+    $tabPage = [System.Windows.Forms.TabPage]::new()
+    $tabPage.Text = $msgTable.advanced
+    $tabControl.Controls.Add($tabPage)
 
-$panel = [System.Windows.Forms.TableLayoutPanel]::new()
-$panel.Dock = "Fill"
-$panel.Padding = 4
-$panel.RowCount = 2
-$panel.ColumnCount = 1
-[void]$panel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 50))
-[void]$panel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 50))
-[void]$panel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 100))
-$tabPage.Controls.Add($panel)
+    $panel = [System.Windows.Forms.TableLayoutPanel]::new()
+    $panel.Dock = "Fill"
+    $panel.Padding = 4
+    $panel.RowCount = 2
+    $panel.ColumnCount = 1
+    [void]$panel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 50))
+    [void]$panel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 50))
+    [void]$panel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 100))
+    $tabPage.Controls.Add($panel)
 
-$groupBox = [System.Windows.Forms.GroupBox]::new()
-$groupBox.Dock = "Fill"
-$groupBox.Text = $msgTable.unpackCache
-$panel.Controls.Add($groupBox)
+    $groupBox = [System.Windows.Forms.GroupBox]::new()
+    $groupBox.Dock = "Fill"
+    $groupBox.Text = $msgTable.unpackCache
+    $panel.Controls.Add($groupBox)
 
-$subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
-$subPanel.Dock = "Fill"
-$subPanel.Padding = 4
-$subPanel.RowCount = 1
-$subPanel.ColumnCount = 2
-[void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
-$groupBox.Controls.Add($subPanel)
+    $subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
+    $subPanel.Dock = "Fill"
+    $subPanel.Padding = 4
+    $subPanel.RowCount = 1
+    $subPanel.ColumnCount = 2
+    [void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
+    [void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
+    [void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
+    $groupBox.Controls.Add($subPanel)
 
-$subGroupBox = [System.Windows.Forms.GroupBox]::new()
-$subGroupBox.Dock = "Fill"
-$subGroupBox.Text = $msgTable.cacheStatus
-$subPanel.Controls.Add($subGroupBox)
+    $subGroupBox = [System.Windows.Forms.GroupBox]::new()
+    $subGroupBox.Dock = "Fill"
+    $subGroupBox.Text = $msgTable.cacheStatus
+    $subPanel.Controls.Add($subGroupBox)
 
-$cacheStatusLabel = [System.Windows.Forms.Label]::new()
-$cacheStatusLabel.Dock = "Fill"
-$cacheStatusLabel.TextAlign = "MiddleCenter"
-$subGroupBox.Controls.Add($cacheStatusLabel)
+    $cacheStatusLabel = [System.Windows.Forms.Label]::new()
+    $cacheStatusLabel.Dock = "Fill"
+    $cacheStatusLabel.TextAlign = "MiddleCenter"
+    $subGroupBox.Controls.Add($cacheStatusLabel)
 
-Check-CacheStatus
+    Check-CacheStatus
 
-$button = [System.Windows.Forms.Button]::new()
-$button.Dock = "Fill"
-$button.TextImageRelation = "ImageAboveText"
-$button.Text = $msgTable.unpackCache
-$button.Image = $unpackImage
-$button.Add_Click({ Unpack-Cache })
-$subPanel.Controls.Add($button)
+    $button = [System.Windows.Forms.Button]::new()
+    $button.Dock = "Fill"
+    $button.TextImageRelation = "ImageAboveText"
+    $button.Text = $msgTable.unpackCache
+    $button.Image = $unpackImage
+    $button.Add_Click({ Unpack-Cache })
+    $subPanel.Controls.Add($button)
 
-$groupBox = [System.Windows.Forms.GroupBox]::new()
-$groupBox.Dock = "Fill"
-$groupBox.Text = $msgTable.startBundle
-$panel.Controls.Add($groupBox)
+    $groupBox = [System.Windows.Forms.GroupBox]::new()
+    $groupBox.Dock = "Fill"
+    $groupBox.Text = $msgTable.startBundle
+    $panel.Controls.Add($groupBox)
 
-$subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
-$subPanel.Dock = "Fill"
-$subPanel.Padding = 4
-$subPanel.RowCount = 1
-$subPanel.ColumnCount = 2
-[void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
-$groupBox.Controls.Add($subPanel)
+    $subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
+    $subPanel.Dock = "Fill"
+    $subPanel.Padding = 4
+    $subPanel.RowCount = 1
+    $subPanel.ColumnCount = 2
+    [void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
+    [void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
+    [void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
+    $groupBox.Controls.Add($subPanel)
 
-$button = [System.Windows.Forms.Button]::new()
-$button.Dock = "Fill"
-$button.TextImageRelation = "ImageAboveText"
-$button.Text = $msgTable.startVSCode
-$button.Image = $editImage
-$button.Add_Click({ Start-VSCode })
-$subPanel.Controls.Add($button)
+    $button = [System.Windows.Forms.Button]::new()
+    $button.Dock = "Fill"
+    $button.TextImageRelation = "ImageAboveText"
+    $button.Text = $msgTable.startVSCode
+    $button.Image = $editImage
+    $button.Add_Click({ Start-VSCode })
+    $subPanel.Controls.Add($button)
 
-$button = [System.Windows.Forms.Button]::new()
-$button.Dock = "Fill"
-$button.TextImageRelation = "ImageAboveText"
-$button.Text = $msgTable.startBash
-$button.Image = $terminalImage
-$button.Add_Click({ Start-Bash })
-$subPanel.Controls.Add($button)
+    $button = [System.Windows.Forms.Button]::new()
+    $button.Dock = "Fill"
+    $button.TextImageRelation = "ImageAboveText"
+    $button.Text = $msgTable.startBash
+    $button.Image = $terminalImage
+    $button.Add_Click({ Start-Bash })
+    $subPanel.Controls.Add($button)
+}
 
 [void]$mainForm.ShowDialog()
 
