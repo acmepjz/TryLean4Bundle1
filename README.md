@@ -13,15 +13,25 @@ It will not write registry.
 https://github.com/acmepjz/TryLean4Bundle1/releases/tag/nightly
 
 - `TryLean4Bundle.7z`: the complete bundle with launcher+standalone Git+Bash+VSCode+Lean4+Mathlib+offline Mathlib help
-- `OfflineMathlibHelp.7z`: only contains launcher+offline Mathlib help
+- `OfflineMathlibHelpWindows.zip`: only contains Windows PowerShell version of offline Mathlib help launcher
+- `OfflineMathlibHelpPython.zip`: only contains cross platform Python version of offline Mathlib help launcher
+- `doc.zip`: Data file for offline Mathlib help. *NOTE: The launcher expects zip file, not extracted contents!*
+  **Don't extract this zip file!! Just put this file in the working directory (for example, next to `TryLean4Launcher.cmd` file or `OfflineMathlibHelp.cmd` file or `TryLean4Launcher.py` file) and that's OK!!**
+- `doc_version.txt`: used for offline Mathlib help launcher to check updates
 
 Usage:
 
 1. Extract all contents of the archive to a folder.
-2. Double click `TryLean4Launcher.cmd`. Trust the script in your antivirus.
+2. Double click `TryLean4Launcher.cmd` or `OfflineMathlibHelp.cmd`. Trust the script in your antivirus.
 3. Click the big button with Lean icon. Follow the instruction to unpack Mathlib cache for the first time run.
 4. The second tab is for offline Mathlib help.
 5. The third tab is for advanced settings.
+
+Python version usage:
+
+1. Put `doc.zip` next to the script file, or use built-in update feature in script file.
+2. `chmod a+x TryLean4Launcher.py`
+3. `./TryLean4Launcher.py` or `python3 TryLean4Launcher.py`
 
 ## Directory structure of this repository
 
