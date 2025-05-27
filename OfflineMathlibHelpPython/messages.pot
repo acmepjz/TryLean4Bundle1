@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 17:09+0800\n"
+"POT-Creation-Date: 2025-05-27 17:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,126 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: TryLean4Launcher.py:25 TryLean4Launcher.py:34
+#: TryLean4Launcher.py:27 TryLean4Launcher.py:36 TryLean4Launcher.py:108
 msgid "Offline mathlib help"
 msgstr ""
 
-#: TryLean4Launcher.py:41
+#: TryLean4Launcher.py:43
 msgid "Start offline mathlib help server"
 msgstr ""
 
-#: TryLean4Launcher.py:43
+#: TryLean4Launcher.py:45
 msgid "Stop offline mathlib help server"
 msgstr ""
 
-#: TryLean4Launcher.py:45
+#: TryLean4Launcher.py:47
 msgid "Open offline mathlib help"
 msgstr ""
 
-#: TryLean4Launcher.py:49 TryLean4Launcher.py:58
+#: TryLean4Launcher.py:51 TryLean4Launcher.py:63 TryLean4Launcher.py:168
+#: TryLean4Launcher.py:199
 msgid "Check update"
 msgstr ""
 
-#: TryLean4Launcher.py:56
+#: TryLean4Launcher.py:61 TryLean4Launcher.py:116
 msgid "Check installed version"
 msgstr ""
 
-#: TryLean4Launcher.py:69
+#: TryLean4Launcher.py:79 TryLean4Launcher.py:153 TryLean4Launcher.py:181
+#: TryLean4Launcher.py:201 TryLean4Launcher.py:205
 msgid "Error"
 msgstr ""
 
-#: TryLean4Launcher.py:69
+#: TryLean4Launcher.py:79
 #, python-format
 msgid "Failed to load file '%s'. Please check the installation is correct."
+msgstr ""
+
+#: TryLean4Launcher.py:108
+#, python-format
+msgid ""
+"Offline mathlib help can be accessed via\n"
+"\n"
+"%s\n"
+"\n"
+"in your browser."
+msgstr ""
+
+#: TryLean4Launcher.py:113 TryLean4Launcher.py:158
+msgid "Can't find offline mathlib help data."
+msgstr ""
+
+#: TryLean4Launcher.py:115 TryLean4Launcher.py:160
+#, python-format
+msgid ""
+"The offline mathlib help data has version:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: TryLean4Launcher.py:153
+msgid ""
+"Failed to download version information. Please check the Internet connection."
+msgstr ""
+
+#: TryLean4Launcher.py:161
+#, python-format
+msgid ""
+"\n"
+"\n"
+"The offline mathlib help available on the Internet has version:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: TryLean4Launcher.py:163
+msgid ""
+"\n"
+"\n"
+"The version is not changed. Do you want to download it again?"
+msgstr ""
+
+#: TryLean4Launcher.py:165
+msgid ""
+"\n"
+"\n"
+"Do you want to download it?"
+msgstr ""
+
+#: TryLean4Launcher.py:172
+msgid "Start download..."
+msgstr ""
+
+#: TryLean4Launcher.py:181
+msgid ""
+"Failed to download offline mathlib help. Please check the Internet "
+"connection."
+msgstr ""
+
+#: TryLean4Launcher.py:183
+msgid "Checking integrity of downloaded file..."
+msgstr ""
+
+#: TryLean4Launcher.py:198
+msgid "Updated successfully"
+msgstr ""
+
+#: TryLean4Launcher.py:199
+msgid "The file is downloaded and updated successfully."
+msgstr ""
+
+#: TryLean4Launcher.py:201
+#, python-format
+msgid ""
+"Failed to overwrite file.\n"
+"\n"
+"Please rename '%s' to '%s' manually."
+msgstr ""
+
+#: TryLean4Launcher.py:205
+msgid "The downloaded file is corrupted. Please try again."
+msgstr ""
+
+#: TryLean4Launcher.py:208
+msgid "Downloading..."
 msgstr ""
