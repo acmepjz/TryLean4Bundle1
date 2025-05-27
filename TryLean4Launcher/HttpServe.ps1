@@ -95,6 +95,7 @@ try {
                 $context.Response.Headers.Set("Cache-Control", "public, max-age=3600")
                 $context.Response.ContentLength64 = $entry.Length
                 $stream.CopyTo($context.Response.OutputStream) # stream to broswer
+                $stream.Close()
                 $context.Response.OutputStream.Close() # close the response
             } elseif ($statusCode -eq 301) {
                 # log the request to the terminal

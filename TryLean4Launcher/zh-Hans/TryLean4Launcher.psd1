@@ -24,4 +24,13 @@ ConvertFrom-StringData @'
     firstTimeUse2 = 数学库缓存尚未安装。是否安装数学库缓存？
     firstTimeUse3 = 选“是”安装数学库缓存（推荐）。
     firstTimeUse4 = 选“否”将直接启动 VSCode 代码编辑器，'import Mathlib' 功能将不可用。
+    updateHelp = 更新离线数学库帮助
+    failedToDownloadVersionInformation = 下载版本信息失败 (错误代码 {0})。请检查互联网连接。
+    oldVersion = 离线数学库帮助数据的版本为:
+    newVersion = 网络上的离线数学库帮助数据的版本为:
+    downloadConfirm = 是否下载？
+    versionNotChanged = 版本未变更。是否重新下载？
+    failedToDownloadUpdate = 下载离线数学库帮助失败 (错误代码 {0})。请检查互联网连接。
+    fileCorrupted = 下载的文件损坏。请重试。
+    updateSuccessfully = 文件成功下载并更新。
 '@

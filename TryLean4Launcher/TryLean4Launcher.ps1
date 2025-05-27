@@ -25,6 +25,15 @@ $msgTable = Data {
     firstTimeUse2 = The mathlib cache is not installed yet. Do you want to install mathlib cache?
     firstTimeUse3 = Choose 'yes' to install mathlib cache (recommended).
     firstTimeUse4 = Choose 'no' to run VSCode directly, note that 'import Mathlib' will be not available.
+    updateHelp = Update offline mathlib help
+    failedToDownloadVersionInformation = Failed to download version information (exit code {0}). Please check the Internet connection.
+    oldVersion = The offline mathlib help data has version:
+    newVersion = The offline mathlib help available on the Internet has version:
+    downloadConfirm = Do you want to download it?
+    versionNotChanged = The version is not changed. Do you want to download it again?
+    failedToDownloadUpdate = Failed to download offline mathlib help (exit code {0}). Please check the Internet connection.
+    fileCorrupted = The downloaded file is corrupted. Please try again.
+    updateSuccessfully = The file is downloaded and updated successfully.
 '@
 }
 
@@ -142,6 +151,7 @@ Function Start-Server {
         $startServerButton.Enabled = $false
         $stopServerButton.Enabled = $true
         $startBrowserButton.Enabled = $true
+        $updateHelpButton.Enabled = $false
     }
 }
 
@@ -160,6 +170,95 @@ Function Stop-Server {
     $startServerButton.Enabled = $true
     $stopServerButton.Enabled = $false
     $startBrowserButton.Enabled = $false
+    $updateHelpButton.Enabled = $true
+}
+
+Function Update-MathlibHelp {
+    $startServerButton.Enabled = $false
+    $stopServerButton.Enabled = $false
+    $startBrowserButton.Enabled = $false
+    $updateHelpButton.Enabled = $false
+    $mainForm.UseWaitCursor = $true
+    Do-Update-MathlibHelp
+    $startServerButton.Enabled = $true
+    $stopServerButton.Enabled = $false
+    $startBrowserButton.Enabled = $false
+    $updateHelpButton.Enabled = $true
+    $mainForm.UseWaitCursor = $false
+    If (Test-Path -Path "new_version.txt" -PathType Leaf) {
+        Remove-Item -Path "new_version.txt"
+    }
+}
+
+Function Get-OldVersion {
+    $OldVersion = "unknown"
+    try {
+        $zipFile = [System.IO.Compression.ZipFile]::OpenRead("doc.zip")
+        try {
+            $entry = $zipFile.GetEntry("doc/doc_version.txt")
+            $stream = $entry.Open()
+            $reader = [System.IO.StreamReader]::new($stream)
+            $OldVersion = $reader.ReadToEnd().Replace("`r", "").TrimEnd("`n")
+        } catch {
+        }
+        $zipFile.Dispose()
+    } catch {
+    }
+    Return $OldVersion
+}
+
+Function Test-NewDoc {
+    $ret = $false
+    try {
+        $zipFile = [System.IO.Compression.ZipFile]::OpenRead("new_doc.zip")
+        try {
+            foreach ($entry in $zipFile.Entries) {
+                $stream = $entry.Open()
+                $reader = [System.IO.StreamReader]::new($stream)
+                $tmp = $reader.ReadToEnd()
+            }
+            $ret = $true
+        } catch {
+        }
+        $zipFile.Dispose()
+    } catch {
+    }
+    Return $ret
+}
+
+Function Do-Update-MathlibHelp {
+    $process = Start-Process -FilePath "curl" -ArgumentList "--retry 5 -L -o new_version.txt `"https://github.com/acmepjz/TryLean4Bundle1/releases/download/nightly/doc_version.txt`"" -PassThru -Wait
+    If ($process.ExitCode -ne 0) {
+        $msg = ($msgTable.failedToDownloadVersionInformation -f $process.ExitCode)
+        [void]([System.Windows.Forms.MessageBox]::Show($msg, $msgTable.error, "OK", "Error"))
+        Return
+    }
+    $NewVersion = (Get-Content -Path "new_version.txt" -Raw).Replace("`r", "").TrimEnd("`n")
+    $OldVersion = Get-OldVersion
+    $msg = $msgTable.oldVersion + "`n`n" + $OldVersion + "`n`n" + $msgTable.newVersion + "`n`n" + $NewVersion + "`n`n"
+    If ($OldVersion -eq $NewVersion) {
+        $msg = $msg + $msgTable.versionNotChanged
+    } Else {
+        $msg = $msg + $msgTable.downloadConfirm
+    }
+    $ret = [System.Windows.Forms.MessageBox]::Show($msg, $msgTable.updateHelp, "YesNo", "Question")
+    If ($ret -ne [System.Windows.Forms.DialogResult]::Yes) {
+        Return
+    }
+    $process = Start-Process -FilePath "curl" -ArgumentList "--retry 5 -L -o new_doc.zip `"https://github.com/acmepjz/TryLean4Bundle1/releases/download/nightly/doc.zip`"" -PassThru -Wait
+    If ($process.ExitCode -ne 0) {
+        $msg = ($msgTable.failedToDownloadUpdate -f $process.ExitCode)
+        [void]([System.Windows.Forms.MessageBox]::Show($msg, $msgTable.error, "OK", "Error"))
+        Return
+    }
+    $ret = Test-NewDoc
+    If (-Not $ret) {
+        [void]([System.Windows.Forms.MessageBox]::Show($msgTable.fileCorrupted, $msgTable.error, "OK", "Error"))
+        Return
+    }
+    Remove-Item -Path "doc.zip"
+    Rename-Item -Path "new_doc.zip" -NewName "doc.zip"
+    [void]([System.Windows.Forms.MessageBox]::Show($msgTable.updateSuccessfully, $msgTable.error, "OK", "Information"))
 }
 
 $code_MyClass = '
@@ -177,6 +276,7 @@ public static void SendCtrlC(uint p) {
 Add-Type -Name 'MyClass' -Namespace 'MyNamespace' -MemberDefinition $code_MyClass
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
@@ -233,12 +333,12 @@ $tabControl.Controls.Add($tabPage)
 $subPanel = [System.Windows.Forms.TableLayoutPanel]::new()
 $subPanel.Dock = "Fill"
 $subPanel.Padding = 4
-$subPanel.RowCount = 1
-$subPanel.ColumnCount = 3
-[void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 100))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 33.33))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 33.33))
-[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 33.33))
+$subPanel.RowCount = 2
+$subPanel.ColumnCount = 2
+[void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 50))
+[void]$subPanel.RowStyles.Add([System.Windows.Forms.RowStyle]::new("Percent", 50))
+[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
+[void]$subPanel.ColumnStyles.Add([System.Windows.Forms.ColumnStyle]::new("Percent", 50))
 $tabPage.Controls.Add($subPanel)
 
 $button = [System.Windows.Forms.Button]::new()
@@ -269,6 +369,15 @@ $button.Enabled = $false
 $button.Add_Click({ Start-Browser })
 $subPanel.Controls.Add($button)
 $startBrowserButton = $button
+
+$button = [System.Windows.Forms.Button]::new()
+$button.Dock = "Fill"
+$button.TextImageRelation = "ImageAboveText"
+$button.Text = $msgTable.updateHelp
+$button.Image = $unpackImage
+$button.Add_Click({ Update-MathlibHelp })
+$subPanel.Controls.Add($button)
+$updateHelpButton = $button
 
 $tabPage = [System.Windows.Forms.TabPage]::new()
 $tabPage.Text = $msgTable.advanced
