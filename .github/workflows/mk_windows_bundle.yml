@@ -2,6 +2,8 @@
 name: create-windows-bundle
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '33 3 * * 6' # At 03:33, only on Saturday
 
 permissions:
   contents: write
