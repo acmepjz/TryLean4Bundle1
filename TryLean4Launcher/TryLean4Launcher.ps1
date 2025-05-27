@@ -260,7 +260,9 @@ Function Do-Update-MathlibHelp {
         [void]([System.Windows.Forms.MessageBox]::Show($msgTable.fileCorrupted, $msgTable.error, "OK", "Error"))
         Return
     }
-    Remove-Item -Path "doc.zip"
+    If (Test-Path -Path "doc.zip" -PathType Leaf) {
+        Remove-Item -Path "doc.zip"
+    }
     Rename-Item -Path "new_doc.zip" -NewName "doc.zip"
     [void]([System.Windows.Forms.MessageBox]::Show($msgTable.updateSuccessfully, $msgTable.updateHelp, "OK", "Information"))
 }
