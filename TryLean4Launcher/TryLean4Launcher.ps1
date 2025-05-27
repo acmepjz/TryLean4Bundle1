@@ -262,7 +262,7 @@ Function Do-Update-MathlibHelp {
     }
     Remove-Item -Path "doc.zip"
     Rename-Item -Path "new_doc.zip" -NewName "doc.zip"
-    [void]([System.Windows.Forms.MessageBox]::Show($msgTable.updateSuccessfully, $msgTable.error, "OK", "Information"))
+    [void]([System.Windows.Forms.MessageBox]::Show($msgTable.updateSuccessfully, $msgTable.updateHelp, "OK", "Information"))
 }
 
 $code_MyClass = '
