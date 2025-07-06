@@ -178,6 +178,20 @@ tar -a -c -f OfflineMathlibHelpPython.zip OfflineMathlibHelpPython
 
 echo ::endgroup::
 
+:::::::: report file size ::::::::
+
+echo ::group::report file size
+
+dir
+
+cd TryLean4Bundle
+
+powershell -ExecutionPolicy Bypass -File ..\Resources\Get-DirStats.ps1
+
+cd ..
+
+echo ::endgroup::
+
 :: TODO error handle
 
 exit /b 0
