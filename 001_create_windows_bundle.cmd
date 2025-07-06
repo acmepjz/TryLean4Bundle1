@@ -159,6 +159,7 @@ echo ::endgroup::
 
 echo ::group::create demo project
 
+set MATHLIB_NO_CACHE_ON_UPDATE=1
 ".\PortableGit\bin\bash.exe" -c "cd projects && lake +%LEAN_TOOLCHAIN_VERSION% new LeanPlayground math"
 
 echo ::endgroup::
