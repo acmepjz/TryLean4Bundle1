@@ -1,7 +1,7 @@
 @echo off
-set PORTABLE_GIT_VERSION=2.49.0
+set PORTABLE_GIT_VERSION=2.51.0
 set PORTABLE_GIT_URL=https://github.com/git-for-windows/git/releases/download/v%PORTABLE_GIT_VERSION%.windows.1/PortableGit-%PORTABLE_GIT_VERSION%-64-bit.7z.exe
-set VSCODIUM_VERSION=1.101.24242
+set VSCODIUM_VERSION=1.103.25610
 set VSCODIUM_URL=https://github.com/VSCodium/vscodium/releases/download/%VSCODIUM_VERSION%/VSCodium-win32-x64-%VSCODIUM_VERSION%.zip
 set LEAN4EXT_VERSION=0.0.209
 set LEAN4EXT_URL=https://github.com/leanprover/vscode-lean4/releases/download/v%LEAN4EXT_VERSION%/lean4-%LEAN4EXT_VERSION%.vsix
