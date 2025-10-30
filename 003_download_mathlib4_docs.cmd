@@ -1,4 +1,5 @@
 @echo off
+SETLOCAL ENABLEDELAYEDEXPANSION
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: NOTE run this AFTER packaging demo projects, as it will add files to build folder ::
@@ -11,21 +12,33 @@ echo ::group::download mathlib4 docs archive
 
 cd Downloads
 
+del artifact.tar
+
 set MATHLIB4_DOCS_REPO=leanprover-community/mathlib4_docs
 set MATHLIB4_DOCS_WF_NAME=docs.yaml
 set MATHLIB4_DOCS_ARTIFACT_NAME=github-pages
-echo get MATHLIB4_DOCS_RUN_ID
-gh run --repo "%MATHLIB4_DOCS_REPO%" list --workflow "%MATHLIB4_DOCS_WF_NAME%" --json databaseId --jq .[0].databaseId > MATHLIB4_DOCS_RUN_ID.txt
-if %ERRORLEVEL% NEQ 0 (
-	echo ::error::download failed with error code %ERRORLEVEL%
-	exit /b %ERRORLEVEL%
+for /L %%i in (0, 1, 9) do (
+	gh run --repo "%MATHLIB4_DOCS_REPO%" list --workflow "%MATHLIB4_DOCS_WF_NAME%" --json databaseId --jq ".[%%i].databaseId" > MATHLIB4_DOCS_RUN_ID.txt
+	if %ERRORLEVEL% NEQ 0 (
+		echo ::warning::failed to get RUN_ID for index %%i, error code %ERRORLEVEL%
+	) else (
+		set /p MATHLIB4_DOCS_RUN_ID=<MATHLIB4_DOCS_RUN_ID.txt
+		echo RUN_ID for index %%i is %MATHLIB4_DOCS_RUN_ID%
+		gh run --repo "%MATHLIB4_DOCS_REPO%" download "%MATHLIB4_DOCS_RUN_ID%" -n "%MATHLIB4_DOCS_ARTIFACT_NAME%"
+		if %ERRORLEVEL% NEQ 0 (
+			echo ::warning::download artifact for index %%i failed with error code %ERRORLEVEL%
+		) else (
+			echo ::warning::download artifact for index %%i successful
+			goto :download_loop_end
+		)
+	)
 )
-set /p MATHLIB4_DOCS_RUN_ID=<MATHLIB4_DOCS_RUN_ID.txt
-echo download the actual file
-gh run --repo "%MATHLIB4_DOCS_REPO%" download "%MATHLIB4_DOCS_RUN_ID%" -n "%MATHLIB4_DOCS_ARTIFACT_NAME%"
-if %ERRORLEVEL% NEQ 0 (
-	echo ::error::download failed with error code %ERRORLEVEL%
-	exit /b %ERRORLEVEL%
+:download_loop_end
+if exist "artifact.tar" (
+	dir artifact.tar
+) else (
+	echo ::error::download artifact failed
+	exit /b 1
 )
 
 echo ::endgroup::
