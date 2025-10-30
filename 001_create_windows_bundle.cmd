@@ -34,7 +34,19 @@ if %ERRORLEVEL% NEQ 0 (
 	echo ::error::download failed with error code %ERRORLEVEL%
 	exit /b %ERRORLEVEL%
 )
-:: TODO add option to force mathlib version
+:: get LEANTAR version
+echo downloading Cache/IO.lean
+curl --retry 5 -L -o "IO.lean" "%MATHLIB4_CACHE_IO_URL%"
+if %ERRORLEVEL% NEQ 0 (
+	echo ::error::download failed with error code %ERRORLEVEL%
+	exit /b %ERRORLEVEL%
+)
+powershell -ExecutionPolicy Bypass -File ..\Resources\get_leantar_version.ps1
+echo the leantar version is:
+type leantar_version.txt
+set /p LEANTAR_VERSION=<leantar_version.txt
+set LEANTAR_URL=https://github.com/digama0/leangz/releases/download/v%LEANTAR_VERSION%/leantar-v%LEANTAR_VERSION%-x86_64-pc-windows-msvc.zip
+:: get mathlib version TODO add option to force mathlib version
 echo downloading lean-toolchain
 curl --retry 5 -L -o "lean-toolchain" "%LEAN_TOOLCHAIN_URL%"
 if %ERRORLEVEL% NEQ 0 (
