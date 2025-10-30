@@ -8,12 +8,17 @@ import http_serve
 from http_serve import InMemoryZipHTTPRequestHandler, ServerThread
 import urllib.request
 
+OFFLINE_MATHLIB_HELP_URL = "http://127.0.0.1:13480/doc/index.html"
+
 def init_locale():
     for key in ["LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"]:
         if key in os.environ:
             return True
-    def_locale = locale.getdefaultlocale()[0]
-    os.environ["LANG"] = def_locale
+    try:
+        def_locale = locale.getdefaultlocale()[0]
+        os.environ["LANG"] = def_locale
+    except:
+        pass
 
 class MainWindow:
     def __init__(self, root):
@@ -34,8 +39,11 @@ class MainWindow:
 
         mainframe = ttk.Frame(notebook)
         notebook.add(mainframe, text=_("Offline mathlib help"))
+        mainframe.rowconfigure(0, weight=1)
+        mainframe.columnconfigure(0, weight=1)
 
-        frame = mainframe
+        frame = ttk.Frame(mainframe)
+        frame.grid(column=0, row=0, sticky="news")
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
@@ -46,6 +54,17 @@ class MainWindow:
         self.stop_button.grid(column=1, row=0, sticky="news", padx=4, pady=4)
         self.browse_button = ttk.Button(frame, text=_("Open offline mathlib help"), state=tk.DISABLED, command=self.start_browser)
         self.browse_button.grid(column=2, row=0, sticky="news", padx=4, pady=4)
+
+        ttk.Label(mainframe, text=_("Offline mathlib help can be accessed via:")).grid(column=0, row=1, sticky="news", padx=4)
+
+        frame = ttk.Frame(mainframe)
+        frame.grid(column=0, row=2, sticky="news")
+        frame.rowconfigure(0, weight=1)
+        frame.columnconfigure(0, weight=1)
+        self.offline_mathlib_help_url = tk.StringVar()
+        # self.offline_mathlib_help_url.set("test")
+        ttk.Entry(frame, textvariable=self.offline_mathlib_help_url, state='readonly').grid(column=0, row=0, sticky="news", padx=4, pady=4)
+        ttk.Button(frame, text=_("Copy to clipboard"), command=self.copy_to_clipboard).grid(column=1, row=0, sticky="news", padx=4, pady=4)
 
         mainframe = ttk.Frame(notebook)
         notebook.add(mainframe, text=_("Check update"))
@@ -101,11 +120,19 @@ class MainWindow:
 
             print("Server is stopping...")
 
+            self.offline_mathlib_help_url.set("")
+
     def start_browser(self):
+        self.offline_mathlib_help_url.set(OFFLINE_MATHLIB_HELP_URL)
         try:
-            os.startfile("http://127.0.0.1:13480/doc/index.html")
+            os.startfile(OFFLINE_MATHLIB_HELP_URL)
         except:
-            messagebox.showinfo(title=_("Offline mathlib help"), message=_("Offline mathlib help can be accessed via\n\n%s\n\nin your browser.") % "http://127.0.0.1:13480/doc/index.html")
+            messagebox.showinfo(title=_("Offline mathlib help"), message=_("Offline mathlib help can be accessed via\n\n%s\n\nin your browser.") % OFFLINE_MATHLIB_HELP_URL)
+
+    def copy_to_clipboard(self):
+        self.root.clipboard_clear()
+        self.root.clipboard_append(self.offline_mathlib_help_url.get())
+        self.root.update()
 
     def check_version(self):
         old_version = self.do_check_version()

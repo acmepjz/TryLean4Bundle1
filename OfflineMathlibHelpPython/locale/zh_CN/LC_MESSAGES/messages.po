@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-27 17:37+0800\n"
+"POT-Creation-Date: 2025-10-30 15:07+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,42 +12,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-#: TryLean4Launcher.py:27 TryLean4Launcher.py:36 TryLean4Launcher.py:108
+#: TryLean4Launcher.py:32 TryLean4Launcher.py:41 TryLean4Launcher.py:130
 msgid "Offline mathlib help"
 msgstr "离线数学库帮助"
 
-#: TryLean4Launcher.py:43
+#: TryLean4Launcher.py:51
 msgid "Start offline mathlib help server"
 msgstr "启动离线数学库帮助服务器"
 
-#: TryLean4Launcher.py:45
+#: TryLean4Launcher.py:53
 msgid "Stop offline mathlib help server"
 msgstr "停止离线数学库帮助服务器"
 
-#: TryLean4Launcher.py:47
+#: TryLean4Launcher.py:55
 msgid "Open offline mathlib help"
 msgstr "打开离线数学库帮助"
 
-#: TryLean4Launcher.py:51 TryLean4Launcher.py:63 TryLean4Launcher.py:168
-#: TryLean4Launcher.py:199
+#: TryLean4Launcher.py:58
+msgid "Offline mathlib help can be accessed via:"
+msgstr "离线数学库帮助可以通过如下地址访问:"
+
+#: TryLean4Launcher.py:67
+msgid "Copy to clipboard"
+msgstr "复制到剪贴板"
+
+#: TryLean4Launcher.py:70 TryLean4Launcher.py:82 TryLean4Launcher.py:195
+#: TryLean4Launcher.py:226
 msgid "Check update"
 msgstr "检查更新"
 
-#: TryLean4Launcher.py:61 TryLean4Launcher.py:116
+#: TryLean4Launcher.py:80 TryLean4Launcher.py:143
 msgid "Check installed version"
 msgstr "检查已安装的版本"
 
-#: TryLean4Launcher.py:79 TryLean4Launcher.py:153 TryLean4Launcher.py:181
-#: TryLean4Launcher.py:201 TryLean4Launcher.py:205
+#: TryLean4Launcher.py:98 TryLean4Launcher.py:180 TryLean4Launcher.py:208
+#: TryLean4Launcher.py:228 TryLean4Launcher.py:232
 msgid "Error"
 msgstr "错误"
 
-#: TryLean4Launcher.py:79
+#: TryLean4Launcher.py:98
 #, python-format
 msgid "Failed to load file '%s'. Please check the installation is correct."
 msgstr "打开文件 '%s' 失败。请检查安装是否正确。"
 
-#: TryLean4Launcher.py:108
+#: TryLean4Launcher.py:130
 #, python-format
 msgid ""
 "Offline mathlib help can be accessed via\n"
@@ -62,11 +70,11 @@ msgstr ""
 "\n"
 "在浏览器中访问。"
 
-#: TryLean4Launcher.py:113 TryLean4Launcher.py:158
+#: TryLean4Launcher.py:140 TryLean4Launcher.py:185
 msgid "Can't find offline mathlib help data."
 msgstr "找不到离线数学库帮助数据。"
 
-#: TryLean4Launcher.py:115 TryLean4Launcher.py:160
+#: TryLean4Launcher.py:142 TryLean4Launcher.py:187
 #, python-format
 msgid ""
 "The offline mathlib help data has version:\n"
@@ -77,12 +85,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: TryLean4Launcher.py:153
+#: TryLean4Launcher.py:180
 msgid ""
 "Failed to download version information. Please check the Internet connection."
 msgstr "下载版本信息失败。请检查互联网连接。"
 
-#: TryLean4Launcher.py:161
+#: TryLean4Launcher.py:188
 #, python-format
 msgid ""
 "\n"
@@ -97,7 +105,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: TryLean4Launcher.py:163
+#: TryLean4Launcher.py:190
 msgid ""
 "\n"
 "\n"
@@ -107,7 +115,7 @@ msgstr ""
 "\n"
 "版本未变更。是否重新下载?"
 
-#: TryLean4Launcher.py:165
+#: TryLean4Launcher.py:192
 msgid ""
 "\n"
 "\n"
@@ -117,29 +125,29 @@ msgstr ""
 "\n"
 "是否下载?"
 
-#: TryLean4Launcher.py:172
+#: TryLean4Launcher.py:199
 msgid "Start download..."
 msgstr "开始下载..."
 
-#: TryLean4Launcher.py:181
+#: TryLean4Launcher.py:208
 msgid ""
 "Failed to download offline mathlib help. Please check the Internet "
 "connection."
 msgstr "下载离线数学库帮助失败。请检查互联网连接。"
 
-#: TryLean4Launcher.py:183
+#: TryLean4Launcher.py:210
 msgid "Checking integrity of downloaded file..."
 msgstr "检查下载文件完整性..."
 
-#: TryLean4Launcher.py:198
+#: TryLean4Launcher.py:225
 msgid "Updated successfully"
 msgstr "更新成功"
 
-#: TryLean4Launcher.py:199
+#: TryLean4Launcher.py:226
 msgid "The file is downloaded and updated successfully."
 msgstr "文件成功下载并更新。"
 
-#: TryLean4Launcher.py:201
+#: TryLean4Launcher.py:228
 #, python-format
 msgid ""
 "Failed to overwrite file.\n"
@@ -150,11 +158,11 @@ msgstr ""
 "\n"
 "请手动重命名文件 '%s' 为 '%s'。"
 
-#: TryLean4Launcher.py:205
+#: TryLean4Launcher.py:232
 msgid "The downloaded file is corrupted. Please try again."
 msgstr "下载的文件损坏。请重试。"
 
-#: TryLean4Launcher.py:208
+#: TryLean4Launcher.py:235
 msgid "Downloading..."
 msgstr "正在下载..."
 
