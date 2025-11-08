@@ -23,13 +23,12 @@ for /L %%i in (0, 1, 9) do (
 		echo ::warning::failed to get RUN_ID for index %%i, error code %ERRORLEVEL%
 	) else (
 		set /p MATHLIB4_DOCS_RUN_ID=<MATHLIB4_DOCS_RUN_ID.txt
-		echo RUN_ID for index %%i is %MATHLIB4_DOCS_RUN_ID%
 		gh run --repo "%MATHLIB4_DOCS_REPO%" download "%MATHLIB4_DOCS_RUN_ID%" -n "%MATHLIB4_DOCS_ARTIFACT_NAME%"
-		if %ERRORLEVEL% NEQ 0 (
-			echo ::warning::download artifact for index %%i failed with error code %ERRORLEVEL%
-		) else (
-			echo ::warning::download artifact for index %%i successful
+		if exist "artifact.tar" (
+			echo download artifact for index %%i successful
 			goto :download_loop_end
+		) else (
+			echo ::warning::download artifact for index %%i failed
 		)
 	)
 )
