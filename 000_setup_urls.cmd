@@ -14,6 +14,6 @@ set MIL_URL=https://github.com/leanprover-community/mathematics_in_lean/archive/
 set FM2024_URL=https://github.com/ImperialCollegeLondon/formalising-mathematics-2024/archive/refs/heads/main.zip
 set LATO_FONT_URL=https://github.com/betsol/lato-font/archive/refs/heads/master.zip
 set JULIAMONO_URL=https://github.com/cormullion/juliamono/archive/refs/heads/master.zip
-set MATHJAX_URL=https://github.com/mathjax/MathJax/archive/refs/heads/master.zip
+set MATHJAX_URL=https://github.com/mathjax/MathJax/archive/refs/heads/legacy-v3.zip
 set BROTLI_VERSION=1.1.0
 set BROTLI_URL=https://github.com/google/brotli/releases/download/v%BROTLI_VERSION%/brotli-x64-windows-static.zip

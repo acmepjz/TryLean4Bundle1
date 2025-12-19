@@ -89,8 +89,8 @@ mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5
 mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output
 mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml
 mkdir TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml\fonts
-move /y Downloads\MathJax-master\es5\tex-mml-chtml.js TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\
-move /y Downloads\MathJax-master\es5\output\chtml\fonts\woff-v2 TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml\fonts\
+move /y Downloads\MathJax-legacy-v3\es5\tex-mml-chtml.js TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\
+move /y Downloads\MathJax-legacy-v3\es5\output\chtml\fonts\woff-v2 TryLean4Bundle\projects\LeanPlayground\.lake\build\doc\MathJax\es5\output\chtml\fonts\
 rmdir /s /q "Downloads\lato-font-master"
 rmdir /s /q "Downloads\juliamono-master"
 rmdir /s /q "Downloads\MathJax-master"
