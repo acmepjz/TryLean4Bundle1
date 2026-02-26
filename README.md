@@ -29,8 +29,8 @@ Usage:
 
 Python version usage:
 
-1. Python3 with Tkinter is reqiured. Most Python3 packages for Windows already include Tkinter.
-   For Linux, Python3 is often pre-installed.
+1. Python3 with Tkinter is required. Most Python3 binary packages for Windows already include Tkinter.
+   For Linux, Python3 is often pre-installed, while
    Tkinter is part of the standard Python library but on Linux it is usually a separate package that must be installed using system's package manager.
    For example, to install Tkinter on Debian/Ubuntu, run `sudo apt install python3-tk`.
 2. Put `doc.zip` next to the script file, or use built-in update feature in script file.
