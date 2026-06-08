@@ -1,9 +1,9 @@
 @echo off
-set PORTABLE_GIT_VERSION=2.53.0
+set PORTABLE_GIT_VERSION=2.54.0
 set PORTABLE_GIT_URL=https://github.com/git-for-windows/git/releases/download/v%PORTABLE_GIT_VERSION%.windows.1/PortableGit-%PORTABLE_GIT_VERSION%-64-bit.7z.exe
-set VSCODIUM_VERSION=1.109.51242
+set VSCODIUM_VERSION=1.121.03429
 set VSCODIUM_URL=https://github.com/VSCodium/vscodium/releases/download/%VSCODIUM_VERSION%/VSCodium-win32-x64-%VSCODIUM_VERSION%.zip
-set LEAN4EXT_VERSION=0.0.224
+set LEAN4EXT_VERSION=0.0.237
 set LEAN4EXT_URL=https://github.com/leanprover/vscode-lean4/releases/download/v%LEAN4EXT_VERSION%/lean4-%LEAN4EXT_VERSION%.vsix
 set SEVENZIP_URL=https://www.7-zip.org/a/7zr.exe
 set LEAN_TOOLCHAIN_URL=https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain
@@ -15,5 +15,5 @@ set FM2024_URL=https://github.com/ImperialCollegeLondon/formalising-mathematics-
 set LATO_FONT_URL=https://github.com/betsol/lato-font/archive/refs/heads/master.zip
 set JULIAMONO_URL=https://github.com/cormullion/juliamono/archive/refs/heads/master.zip
 set MATHJAX_URL=https://github.com/mathjax/MathJax/archive/refs/heads/legacy-v3.zip
-set BROTLI_VERSION=1.1.0
+set BROTLI_VERSION=1.2.0
 set BROTLI_URL=https://github.com/google/brotli/releases/download/v%BROTLI_VERSION%/brotli-x64-windows-static.zip
